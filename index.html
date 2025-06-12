@@ -434,4 +434,12 @@
     <!-- JavaScript -->
     <script src="script.js"></script>
 </body>
+<script>
+  function scrollToSection(id) {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+</script>
 </html>
