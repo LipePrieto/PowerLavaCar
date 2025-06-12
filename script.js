@@ -142,7 +142,10 @@ Serviço: ${data.service}
 Data: ${formattedDate}
 Leva e traz: ${data.pickup}${pickupText}`;
 
-whatsappButton.href = `https://api.whatsapp.com/send?phone=5514988388121&text=${encodeURIComponent(whatsappMessage)}`;
+        const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
+        
+        whatsappButton.onclick = function() {
+            window.open(whatsappUrl, '_blank');
         };
 
         // Edit button functionality
