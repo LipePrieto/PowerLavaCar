@@ -142,7 +142,7 @@ Serviço: ${data.service}
 Data: ${formattedDate}
 Leva e traz: ${data.pickup}${pickupText}`;
 
-        const whatsappUrl = `https://wa.me/5514999999999?text=${encodeURIComponent(whatsappMessage)}`;
+        const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
         
         whatsappButton.onclick = function() {
             window.open(whatsappUrl, '_blank');
