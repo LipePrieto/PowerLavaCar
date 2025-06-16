@@ -982,6 +982,170 @@ body {
     }
 }
 
+/* ================================================= */
+/* ESTILOS PARA A PÁGINA SOBRE NÓS                   */
+/* ================================================= */
+
+.about-us-section {
+    padding: 140px 0 120px;
+    background: var(--gradient-section-bg-2); /* Reutilizando seu gradiente */
+}
+
+/* Layout em grid para a história e vídeo */
+.about-content {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 40px;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.about-text h3 {
+    color: var(--primary-purple);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    color: var(--text-light-gray);
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+/* Grid para Missão, Visão e Valores */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 80px;
+}
+
+.value-card {
+    text-align: center;
+    padding: 20px;
+}
+
+@keyframes icon-pulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 5px rgba(192, 132, 252, 0.2);
+    }
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 5px rgba(192, 132, 252, 0.2);
+    }
+}
+
+.value-card i {
+    font-size: 3rem;
+    color: var(--primary-purple);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    animation: icon-pulse 3s infinite ease-in-out; 
+}
+
+.value-card:hover i {
+    animation-play-state: paused;
+    transform: scale(1.2);
+    color: var(--light-purple);
+}
+
+.value-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-white);
+}
+
+.value-card p {
+    color: var(--text-light-gray);
+}
+
+/* Seção da Equipe */
+.team-section {
+    padding: 120px 0;
+    background: var(--gradient-section-bg-1);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.team-member {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--primary-purple);
+}
+
+.team-member h4 {
+    font-size: 1.25rem;
+    color: var(--text-white);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    color: var(--text-light-gray);
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+
+/* Chamada para Ação Final */
+.cta-final-section {
+    padding: 100px 0;
+    background: var(--gradient-section-bg-2);
+    text-align: center;
+}
+
+@keyframes cta-pulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 25px rgba(168, 85, 247, 0.5);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+}
+
+.cta-button {
+    animation: cta-pulse 2.5s infinite;
+}
+
+.cta-button:hover {
+    animation: none;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+}
+
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero-container {
@@ -997,6 +1161,12 @@ body {
     .services-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 25px;
+    }
+
+    /* Ajustes para a página Sobre Nós */
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 }
 
@@ -1073,6 +1243,23 @@ body {
     .booking-form {
         padding: 30px 20px;
     }
+
+    /* Ajustes para a página Sobre Nós */
+    .about-us-section, .team-section {
+        padding: 80px 20px; /* Reduz o padding para mobile */
+    }
+
+    .about-content {
+        gap: 30px;
+    }
+
+    .about-text {
+        order: 2; /* Coloca o texto depois do vídeo no mobile */
+    }
+
+    .about-content .video-wrapper {
+        order: 1;
+    }
 }
 
 @media (max-width: 360px) {
@@ -1147,124 +1334,4 @@ body {
         transform: scale(4);
         opacity: 0;
     }
-}
-
-/* ================================================= */
-/* CÓDIGO ADICIONADO PARA EFEITOS E NOVAS SEÇÕES */
-/* ================================================= */
-
-/* EFEITOS PARA OS ÍCONES DA SEÇÃO "SOBRE NÓS" */
-
-@keyframes icon-pulse {
-    0% {
-        transform: scale(1);
-        text-shadow: 0 0 5px rgba(192, 132, 252, 0.2);
-    }
-    50% {
-        transform: scale(1.1);
-        text-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
-    }
-    100% {
-        transform: scale(1);
-        text-shadow: 0 0 5px rgba(192, 132, 252, 0.2);
-    }
-}
-
-.value-card i {
-    transition: all 0.3s ease-in-out;
-    animation: icon-pulse 3s infinite ease-in-out;
-}
-
-.value-card:hover i {
-    animation-play-state: paused;
-    transform: scale(1.2);
-    color: var(--light-purple);
-}
-
-/* ESTILOS PARA A SEÇÃO "NOSSA EQUIPE" */
-.team-section {
-    padding: 120px 0;
-    background: var(--gradient-section-bg-1);
-}
-
-.team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
-}
-
-.team-member {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.team-member:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-}
-
-.team-member img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 20px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    border: 3px solid var(--primary-purple);
-}
-
-.team-member h4 {
-    font-size: 1.25rem;
-    color: var(--text-white);
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.team-member p {
-    color: var(--text-light-gray);
-    font-size: 0.95rem;
-    font-style: italic;
-}
-
-
-/* ESTILOS PARA A SEÇÃO "CHAMADA PARA AÇÃO FINAL" */
-.cta-final-section {
-    padding: 100px 0;
-    background: var(--gradient-section-bg-2);
-    text-align: center; /* Esta linha centraliza tudo dentro da seção */
-}
-
-/* ANIMAÇÃO DE PULSO PARA O BOTÃO PRINCIPAL (CTA) */
-
-/* 1. Define a animação da sombra */
-@keyframes cta-pulse {
-    0% {
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-    }
-    50% {
-        box-shadow: 0 6px 25px rgba(168, 85, 247, 0.5);
-    }
-    100% {
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-    }
-}
-
-/* 2. Aplica a animação ao botão */
-.cta-button {
-    /* A animação 'cta-pulse' terá 2.5 segundos de duração e se repetirá infinitamente */
-    animation: cta-pulse 2.5s infinite;
-}
-
-/* 3. Garante que o efeito de hover continue funcionando bem */
-.cta-button:hover {
-    /* Para a animação de pulso para dar prioridade ao efeito do mouse */
-    animation: none;
-    transform: translateY(-3px); /* Um pouco mais de elevação no hover */
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
 }
