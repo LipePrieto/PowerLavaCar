@@ -1239,3 +1239,32 @@ body {
     background: var(--gradient-section-bg-2);
     text-align: center; /* Esta linha centraliza tudo dentro da seção */
 }
+
+/* ANIMAÇÃO DE PULSO PARA O BOTÃO PRINCIPAL (CTA) */
+
+/* 1. Define a animação da sombra */
+@keyframes cta-pulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 25px rgba(168, 85, 247, 0.5);
+    }
+    100% {
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+}
+
+/* 2. Aplica a animação ao botão */
+.cta-button {
+    /* A animação 'cta-pulse' terá 2.5 segundos de duração e se repetirá infinitamente */
+    animation: cta-pulse 2.5s infinite;
+}
+
+/* 3. Garante que o efeito de hover continue funcionando bem */
+.cta-button:hover {
+    /* Para a animação de pulso para dar prioridade ao efeito do mouse */
+    animation: none;
+    transform: translateY(-3px); /* Um pouco mais de elevação no hover */
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+}
