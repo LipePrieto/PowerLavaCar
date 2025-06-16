@@ -3,14 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Power Lava-Car - Qualidade e Brilho para seu Veículo</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Power Lava-Car em Jaú, SP. Oferecemos lavagem completa, higienização e polimento. Agende online e deixe seu carro brilhando!">
+    <meta name="keywords" content="lava-car, lavagem de carro, estética automotiva, polimento, higienização, Jaú, SP">
+    <meta name="author" content="Power Lava-Car">
+    
+    <meta property="og:title" content="Power Lava-Car - Qualidade e Brilho para seu Veículo">
+    <meta property="og:description" content="Tecnologia e cuidado profissional para um brilho incomparável. Agende sua lavagem!">
+    <meta property="og:image" content="URL_DA_IMAGEM_PARA_COMPARTILHAMENTO.jpg">
+    <meta property="og:url" content="URL_DO_SEU_SITE.com.br">
+    <meta property="og:type" content="website">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <nav class="navbar" id="navbar">
+    <header class="navbar" id="navbar">
         <div class="nav-container container">
             <a href="#hero" class="nav-logo">
                 <i class="fas fa-car-wash"></i> Power Lava-Car
@@ -28,294 +42,271 @@
                 <span></span>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <section class="hero" id="hero">
-        <div class="hero-container container">
-            <div class="hero-content" data-aos="fade-up">
-                <h1 class="hero-title">Seu Carro Brilhando Como Novo!</h1>
-                <p class="hero-slogan">Tecnologia e Cuidado Profissional para um Brilho Incomparável.</p>
-                <p class="hero-description">Na Power Lava-Car, combinamos tecnologia de ponta com um toque artesanal para garantir que seu carro receba o melhor tratamento, por dentro e por fora. Deixe a sujeira para nós e desfrute de um brilho impecável!</p>
-                <a href="#booking" class="cta-button"><i class="fas fa-calendar-check"></i> Agende sua Lavagem</a>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number" data-target="1500">0</span>
-                        <span class="stat-label">Carros Lavados</span>
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-container container">
+                <div class="hero-content" data-aos="fade-up">
+                    <h1 class="hero-title">Seu Carro Brilhando Como Novo!</h1>
+                    <p class="hero-slogan">Tecnologia e Cuidado Profissional para um Brilho Incomparável.</p>
+                    <p class="hero-description">Na Power Lava-Car, combinamos tecnologia de ponta com um toque artesanal para garantir que seu carro receba o melhor tratamento, por dentro e por fora.</p>
+                    <a href="#booking" class="cta-button"><i class="fas fa-calendar-check"></i> Agende sua Lavagem</a>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="1500">0</span>
+                            <span class="stat-label">Carros Lavados</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="200">0</span>
+                            <span class="stat-label">Clientes Satisfeitos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="5">0</span>
+                            <span class="stat-label">Anos de Experiência</span>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-number" data-target="200">0</span>
-                        <span class="stat-label">Clientes Satisfeitos</span>
+                </div>
+                <div class="hero-video" data-aos="fade-in">
+                    <iframe
+                        src="https://www.youtube.com/embed/NG1f_G6T_AQ?si=LLJ22gx-wvso0MES"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                        class="hero-main-video"
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Nossos Serviços Premium</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Oferecemos uma gama completa de serviços para o cuidado do seu veículo, com atenção aos detalhes e produtos de alta qualidade.</p>
+                <div class="services-grid">
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fas fa-car service-icon"></i>
+                        <h3 class="service-title">Lavagem Expressa</h3>
+                        <p class="service-description">Lavagem rápida e eficaz para um brilho imediato. Ideal para o dia a dia.</p>
+                        <span class="service-price">R$ 40,00</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-number" data-target="5">0</span>
-                        <span class="stat-label">Anos de Experiência</span>
+                    <div class="service-card premium" data-aos="fade-up" data-aos-delay="300">
+                        <i class="fas fa-spray-can service-icon"></i>
+                        <h3 class="service-title">Lavagem Completa</h3>
+                        <p class="service-description">Lavagem detalhada externa e interna, aspiração, limpeza de painel e vidros.</p>
+                        <span class="service-price">R$ 80,00</span>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                        <i class="fas fa-fan service-icon"></i>
+                        <h3 class="service-title">Cera Cristalizadora</h3>
+                        <p class="service-description">Aplicação de cera de alta performance para proteção e brilho duradouro.</p>
+                        <span class="service-price">R$ 60,00</span>
+                    </div>
+                    <div class="service-card additional" data-aos="fade-up" data-aos-delay="500">
+                        <i class="fas fa-soap service-icon"></i>
+                        <h3 class="service-title">Higienização Interna</h3>
+                        <p class="service-description">Limpeza profunda e remoção de odores para um interior renovado e livre de bactérias.</p>
+                        <span class="service-price">A partir de R$ 200,00</span>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+                        <i class="fas fa-paint-roller service-icon"></i>
+                        <h3 class="service-title">Polimento de Faróis</h3>
+                        <p class="service-description">Restauração da transparência dos faróis para melhorar a visibilidade e estética.</p>
+                        <span class="service-price">R$ 90,00</span>
+                    </div>
+                    <div class="service-card" data-aos="fade-up" data-aos-delay="700">
+                        <i class="fas fa-truck-pickup service-icon"></i>
+                        <h3 class="service-title">Lava e Traz</h3>
+                        <p class="service-description">Conveniência total! Buscamos e entregamos seu veículo no local desejado. (Taxa extra aplicada)</p>
+                        <span class="service-price">R$ 5,00 (adicional)</span>
                     </div>
                 </div>
             </div>
-            <div class="hero-video" data-aos="fade-in">
-<div class="hero-video" data-aos="fade-in">
-    <iframe 
-        src="https://www.youtube.com/embed/NG1f_G6T_AQ?si=LLJ22gx-wvso0MES&autoplay=1&mute=1&loop=1&playlist=NG1f_G6T_AQ&controls=0&modestbranding=1&rel=0&showinfo=0"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-        class="hero-main-video"
-    ></iframe>
-</div>
-</div>
-        </div>
-    </section>
+        </section>
 
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Nossos Serviços Premium</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Oferecemos uma gama completa de serviços para o cuidado do seu veículo, com atenção aos detalhes e produtos de alta qualidade.</p>
-
-            <div class="services-grid">
-                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fas fa-car service-icon"></i>
-                    <h3 class="service-title">Lavagem Expressa</h3>
-                    <p class="service-description">Lavagem rápida e eficaz para um brilho imediato. Ideal para o dia a dia.</p>
-                    <span class="service-price">R$ 40,00</span>
-                </div>
-                <div class="service-card premium" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fas fa-spray-can service-icon"></i>
-                    <h3 class="service-title">Lavagem Completa</h3>
-                    <p class="service-description">Lavagem detalhada externa e interna, aspiração, limpeza de painel e vidros.</p>
-                    <span class="service-price">R$ 80,00</span>
-                </div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
-                    <i class="fas fa-fan service-icon"></i>
-                    <h3 class="service-title">Cera Cristalizadora</h3>
-                    <p class="service-description">Aplicação de cera de alta performance para proteção e brilho duradouro.</p>
-                    <span class="service-price">R$ 60,00</span>
-                </div>
-                <div class="service-card additional" data-aos="fade-up" data-aos-delay="500">
-                    <i class="fas fa-soap service-icon"></i>
-                    <h3 class="service-title">Higienização Interna</h3>
-                    <p class="service-description">Limpeza profunda e remoção de odores para um interior renovado e livre de bactérias.</p>
-                    <span class="service-price">A partir de R$ 200,00</span>
-                </div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="600">
-                    <i class="fas fa-paint-roller service-icon"></i>
-                    <h3 class="service-title">Polimento de Faróis</h3>
-                    <p class="service-description">Restauração da transparência dos faróis para melhorar a visibilidade e estética.</p>
-                    <span class="service-price">R$ 90,00</span>
-                </div>
-                <div class="service-card" data-aos="fade-up" data-aos-delay="700">
-                    <i class="fas fa-truck-pickup service-icon"></i>
-                    <h3 class="service-title">Lava e Traz</h3>
-                    <p class="service-description">Conveniência total! Buscamos e entregamos seu veículo no local desejado. (Taxa extra aplicada)</p>
-                    <span class="service-price">R$ 5,00 (adicional)</span>
+        <section class="video-section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Conheça Nosso Processo</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Veja como cuidamos do seu carro com a máxima atenção e profissionalismo.</p>
+                <div class="video-container" data-aos="fade-in" data-aos-delay="200">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/HztMSo-kLOs?si=6bk7Pg2YK_IBDMSp" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="video-features">
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="300">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Equipamentos de Última Geração</span>
+                        </div>
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="400">
+                            <i class="fas fa-flask"></i>
+                            <span>Produtos Biodegradáveis e Seguros</span>
+                        </div>
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="500">
+                            <i class="fas fa-hand-sparkles"></i>
+                            <span>Equipe Especializada e Atenciosa</span>
+                        </div>
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="600">
+                            <i class="fas fa-clock"></i>
+                            <span>Agilidade sem Perder a Qualidade</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="video-section">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Conheça Nosso Processo</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Veja como cuidamos do seu carro com a máxima atenção e profissionalismo.</p>
-            <div class="video-container" data-aos="fade-in" data-aos-delay="200">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/HztMSo-kLOs?si=6bk7Pg2YK_IBDMSp" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <section class="reviews" id="reviews">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">O que Nossos Clientes Dizem</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">A satisfação dos nossos clientes é a nossa maior recompensa.</p>
+                <div class="reviews-grid">
+                    <div class="review-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="review-header">
+                            <div class="review-avatar">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Foto de perfil da cliente Ana Paula S.">
+                            </div>
+                            <div class="review-info">
+                                <h4>Ana Paula S.</h4>
+                                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-text">"Serviço impecável! Meu carro ficou como novo, e o atendimento foi super rápido e eficiente. Recomendo a todos!"</p>
+                        <span class="review-date">10 de Junho, 2025</span>
+                    </div>
+                    <div class="review-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="review-header">
+                            <div class="review-avatar">
+                                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto de perfil do cliente Carlos Eduardo L.">
+                            </div>
+                            <div class="review-info">
+                                <h4>Carlos Eduardo L.</h4>
+                                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-text">"A lavagem completa é sensacional, tirou todas as manchas do estofamento. O sistema de agendamento online é um diferencial!"</p>
+                        <span class="review-date">05 de Junho, 2025</span>
+                    </div>
+                    <div class="review-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="review-header">
+                            <div class="review-avatar">
+                                <img src="https://randomuser.me/api/portraits/women/72.jpg" alt="Foto de perfil da cliente Fernanda M.">
+                            </div>
+                            <div class="review-info">
+                                <h4>Fernanda M.</h4>
+                                <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-text">"O serviço de leva e traz é um salva-vidas para quem tem a vida corrida. Confiança e qualidade garantidas. Estão de parabéns!"</p>
+                        <span class="review-date">02 de Junho, 2025</span>
+                    </div>
                 </div>
-                <div class="video-features">
-                    <div class="feature-item" data-aos="fade-right" data-aos-delay="300">
+            </div>
+        </section>
+
+        <section class="map-section" id="location">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Onde nos Encontrar</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Visite nossa unidade ou entre em contato para mais informações.</p>
+                <div class="map-container">
+                    <div class="map-wrapper" data-aos="fade-right">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.8!2d-48.5577!3d-22.2961!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b8a0b6d0a6f0e7%3A0x1234567890abcdef!2sR.%20S%C3%A3o%20Sebasti%C3%A3o%2C%20145%20-%20Ch%C3%A1cara%20Braz%20Miraglia%2C%20Ja%C3%BA%20-%20SP%2C%2017210-060!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="map-info" data-aos="fade-left">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Nosso Endereço</h4>
+                                <p>R. São Sebastião, 145 - Chácara Braz Miraglia</p>
+                                <p>Jaú, SP - Brasil</p>
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=R.+S%C3%A3o+Sebasti%C3%A3o,+145+-+Ch%C3%A1cara+Braz+Miraglia,+Ja%C3%BA+-+SP" target="_blank" class="route-button">
+                                    <i class="fas fa-directions"></i> Traçar Rota
+                                </a>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <h4>Telefones</h4>
+                                <p>(14) 98838-8121</p>
+                                <p>(14) 3322-1100</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>E-mail</h4>
+                                <p>contato@powerlavacar.com.br</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Horário de Funcionamento</h4>
+                                <p>Seg-Sex: 8h00 - 18h00</p>
+                                <p>Sábado: 8h00 - 12h00</p>
+                                <p>Domingo: Fechado</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="booking" id="booking">
+            <div class="container booking-container">
+                <h2 class="section-title" data-aos="fade-up">Agende sua Lavagem</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Preencha o formulário abaixo e garanta um horário para o seu carro!</p>
+                <form id="booking-form" class="booking-form" data-aos="fade-in" data-aos-delay="200" novalidate>
+                    <div class="form-group">
+                        <label for="name">Seu Nome Completo:</label>
+                        <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                        <div class="error-message" id="name-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telefone (WhatsApp):</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required pattern="\(\d{2}\) \d{5}-\d{4}">
+                        <div class="error-message" id="phone-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Serviço Desejado:</label>
+                        <select id="service" name="service" required>
+                            <option value="" disabled selected>Selecione um serviço</option>
+                            <option value="Lavagem Expressa">Lavagem Expressa - R$ 40,00</option>
+                            <option value="Lavagem Completa">Lavagem Completa - R$ 80,00</option>
+                            <option value="Cera Cristalizadora">Cera Cristalizadora - R$ 60,00</option>
+                            <option value="Higienização Interna">Higienização Interna - A partir de R$ 200,00</option>
+                            <option value="Polimento de Faróis">Polimento de Faróis - R$ 90,00</option>
+                        </select>
+                        <div class="error-message" id="service-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Data do Agendamento:</label>
+                        <input type="date" id="date" name="date" required>
+                        <div class="error-message" id="date-error"></div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pickup" name="pickup">
+                            <span class="checkmark"></span>
+                            Serviço de Leva e Traz (+R$ 5,00)
+                        </label>
+                    </div>
+                    <button type="submit" class="submit-button"><i class="fas fa-calendar-alt"></i> Agendar Agora</button>
+                </form>
+                <div id="confirmation" class="confirmation-message" style="display: none;">
+                    <div class="confirmation-content">
                         <i class="fas fa-check-circle"></i>
-                        <span>Equipamentos de Última Geração</span>
-                    </div>
-                    <div class="feature-item" data-aos="fade-right" data-aos-delay="400">
-                        <i class="fas fa-flask"></i>
-                        <span>Produtos Biodegradáveis e Seguros</span>
-                    </div>
-                    <div class="feature-item" data-aos="fade-right" data-aos-delay="500">
-                        <i class="fas fa-hand-sparkles"></i>
-                        <span>Equipe Especializada e Atenciosa</span>
-                    </div>
-                    <div class="feature-item" data-aos="fade-right" data-aos-delay="600">
-                        <i class="fas fa-clock"></i>
-                        <span>Agilidade sem Perder a Qualidade</span>
+                        <h3>Agendamento Recebido!</h3>
+                        <p>Seu pedido de agendamento foi enviado com sucesso. Em breve, entraremos em contato para confirmar os detalhes.</p>
+                        <div id="confirmation-details"></div>
+                        <button id="whatsapp-button" class="whatsapp-button"><i class="fab fa-whatsapp"></i> Enviar via WhatsApp</button>
+                        <button id="edit-button" class="edit-button"><i class="fas fa-edit"></i> Editar Agendamento</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="reviews" id="reviews">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">O que Nossos Clientes Dizem</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">A satisfação dos nossos clientes é a nossa maior recompensa.</p>
-
-            <div class="reviews-grid">
-                <div class="review-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="review-header">
-                        <div class="review-avatar">
-                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Foto de Cliente">
-                        </div>
-                        <div class="review-info">
-                            <h4>Ana Paula S.</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"Serviço impecável! Meu carro ficou como novo, e o atendimento foi super rápido e eficiente. Recomendo a todos!"</p>
-                    <span class="review-date">10 de Junho, 2025</span>
-                </div>
-
-                <div class="review-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="review-header">
-                        <div class="review-avatar">
-                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto de Cliente">
-                        </div>
-                        <div class="review-info">
-                            <h4>Carlos Eduardo L.</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"A lavagem completa é sensacional, tirou todas as manchas do estofamento. O sistema de agendamento online é um diferencial!"</p>
-                    <span class="review-date">05 de Junho, 2025</span>
-                </div>
-
-                <div class="review-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="review-header">
-                        <div class="review-avatar">
-                            <img src="https://randomuser.me/api/portraits/women/72.jpg" alt="Foto de Cliente">
-                        </div>
-                        <div class="review-info">
-                            <h4>Fernanda M.</h4>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">"O serviço de leva e traz é um salva-vidas para quem tem a vida corrida. Confiança e qualidade garantidas. Estão de parabéns!"</p>
-                    <span class="review-date">02 de Junho, 2025</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="map-section" id="location">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Onde nos Encontrar</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Visite nossa unidade ou entre em contato para mais informações.</p>
-            <div class="map-container">
-                <div class="map-wrapper" data-aos="fade-right">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.8!2d-48.5577!3d-22.2961!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b8a0b6d0a6f0e7%3A0x1234567890abcdef!2sR.%20S%C3%A3o%20Sebasti%C3%A3o%2C%20145%20-%20Ch%C3%A1cara%20Braz%20Miraglia%2C%20Ja%C3%BA%20-%20SP%2C%2017210-060!5e0!3m2!1spt-BR!2sbr!4v1234567890123!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-                <div class="map-info" data-aos="fade-left">
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Nosso Endereço</h4>
-                            <p>R. São Sebastião, 145 - Chácara Braz Miraglia</p>
-                            <p>Jaú, SP - Brasil</p>
-                            <a href="https://www.google.com/maps/dir/?api=1&destination=R.+S%C3%A3o+Sebasti%C3%A3o,+145+-+Ch%C3%A1cara+Braz+Miraglia,+Ja%C3%BA+-+SP" target="_blank" class="route-button">
-                                <i class="fas fa-directions"></i> Traçar Rota
-                            </a>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-phone-alt"></i>
-                        <div>
-                            <h4>Telefones</h4>
-                            <p>(14) 98838-8121</p>
-                            <p>(14) 3322-1100</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>E-mail</h4>
-                            <p>contato@powerlavacar.com.br</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h4>Horário de Funcionamento</h4>
-                            <p>Seg-Sex: 8h00 - 18h00</p>
-                            <p>Sábado: 8h00 - 12h00</p>
-                            <p>Domingo: Fechado</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="booking" id="booking">
-        <div class="container booking-container">
-            <h2 class="section-title" data-aos="fade-up">Agende sua Lavagem</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Preencha o formulário abaixo e garanta um horário para o seu carro!</p>
-
-            <form id="booking-form" class="booking-form" data-aos="fade-in" data-aos-delay="200">
-                <div class="form-group">
-                    <label for="name">Seu Nome Completo:</label>
-                    <input type="text" id="name" name="name" placeholder="Seu nome" required>
-                    <div class="error-message" id="name-error"></div>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Telefone (WhatsApp):</label>
-                    <input type="text" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required pattern="\(\d{2}\) \d{5}-\d{4}">
-                    <div class="error-message" id="phone-error"></div>
-                </div>
-                <div class="form-group">
-                    <label for="service">Serviço Desejado:</label>
-                    <select id="service" name="service" required>
-                        <option value="">Selecione um serviço</option>
-                        <option value="Lavagem Expressa">Lavagem Expressa - R$ 40,00</option>
-                        <option value="Lavagem Completa">Lavagem Completa - R$ 80,00</option>
-                        <option value="Cera Cristalizadora">Cera Cristalizadora - R$ 60,00</option>
-                        <option value="Higienização Interna">Higienização Interna - A partir de R$ 200,00</option>
-                        <option value="Polimento de Faróis">Polimento de Faróis - R$ 90,00</option>
-                    </select>
-                    <div class="error-message" id="service-error"></div>
-                </div>
-                <div class="form-group">
-                    <label for="date">Data do Agendamento:</label>
-                    <input type="date" id="date" name="date" required>
-                    <div class="error-message" id="date-error"></div>
-                </div>
-                <div class="form-group checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="pickup" name="pickup">
-                        <span class="checkmark"></span>
-                        Serviço de Leva e Traz (+R$ 5,00)
-                    </label>
-                </div>
-                <button type="submit" class="submit-button"><i class="fas fa-calendar-alt"></i> Agendar Agora</button>
-            </form>
-
-            <div id="confirmation" class="confirmation-message" style="display: none;">
-                <div class="confirmation-content">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Agendamento Recebido!</h3>
-                    <p>Seu pedido de agendamento foi enviado com sucesso. Em breve, entraremos em contato para confirmar os detalhes.</p>
-                    <div id="confirmation-details">
-                        </div>
-                    <button id="whatsapp-button" class="whatsapp-button"><i class="fab fa-whatsapp"></i> Enviar via WhatsApp</button>
-                    <button id="edit-button" class="edit-button"><i class="fas fa-edit"></i> Editar Agendamento</button>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer class="footer">
         <div class="container footer-content">
@@ -323,9 +314,9 @@
                 <h3><i class="fas fa-car-wash"></i> Power Lava-Car</h3>
                 <p>Cuidando do seu veículo com paixão e excelência desde 2015. Seu carro merece o melhor!</p>
                 <div class="social-links">
-                    <a href="https://wa.me/5514988388121" target="_blank" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://facebook.com/powerlavacar" target="_blank" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://instagram.com/powerlavacar" target="_blank" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/5514988388121" target="_blank" class="social-link whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://facebook.com/powerlavacar" target="_blank" class="social-link facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/powerlavacar" target="_blank" class="social-link instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             <div class="footer-section links">
@@ -347,14 +338,22 @@
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2025 Power Lava-Car. Todos os direitos reservados.
+            © 2025 Power Lava-Car. Todos os direitos reservados.
         </div>
     </footer>
 
-    <a href="https://wa.me/5514988388121" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/5514988388121" class="whatsapp-float" target="_blank" aria-label="Fale conosco no WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Inicializa a biblioteca de animações
+        AOS.init({
+            duration: 800,
+            once: true,
+        });
+    </script>
 </body>
 </html>
