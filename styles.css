@@ -1237,4 +1237,5 @@ body {
 .cta-final-section {
     padding: 100px 0;
     background: var(--gradient-section-bg-2);
+    text-align: center; /* Esta linha centraliza tudo dentro da seção */
 }
