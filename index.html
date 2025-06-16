@@ -21,6 +21,38 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CarWash",
+      "name": "Power Lava-Car",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "R. São Sebastião, 145 - Chácara Braz Miraglia",
+        "addressLocality": "Jaú",
+        "addressRegion": "SP",
+        "addressCountry": "BR"
+      },
+      "telephone": "+5514988388121",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
+          "opens": "08:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "12:00"
+        }
+      ],
+      "image": "URL_DA_IMAGEM_PARA_COMPARTILHAMENTO.jpg",
+      "url": "URL_DO_SEU_SITE.com.br"
+    }
+    </script>
 </head>
 <body>
 
@@ -54,21 +86,21 @@
                     <p class="hero-description">Na Power Lava-Car, combinamos tecnologia de ponta com um toque artesanal para garantir que seu carro receba o melhor tratamento, por dentro e por fora.</p>
                     <a href="#booking" class="cta-button"><i class="fas fa-calendar-check"></i> Agende sua Lavagem</a>
                     <div class="hero-stats">
-                        <div class="stat-item">
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
                             <span class="stat-number" data-target="1500">0</span>
                             <span class="stat-label">Carros Lavados</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
                             <span class="stat-number" data-target="200">0</span>
                             <span class="stat-label">Clientes Satisfeitos</span>
                         </div>
-                        <div class="stat-item">
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
                             <span class="stat-number" data-target="5">0</span>
                             <span class="stat-label">Anos de Experiência</span>
                         </div>
                     </div>
                 </div>
-                <div class="hero-video" data-aos="fade-in">
+                <div class="hero-video" data-aos="fade-in" data-aos-delay="100">
                     <iframe
                         src="https://www.youtube.com/embed/NG1f_G6T_AQ?si=LLJ22gx-wvso0MES"
                         title="YouTube video player"
@@ -119,7 +151,7 @@
                     </div>
                     <div class="service-card" data-aos="fade-up" data-aos-delay="700">
                         <i class="fas fa-truck-pickup service-icon"></i>
-                        <h3 class="service-title">Lava e Traz</h3>
+                        <h3 class="service-title">Leva e Traz</h3>
                         <p class="service-description">Conveniência total! Buscamos e entregamos seu veículo no local desejado. (Taxa extra aplicada)</p>
                         <span class="service-price">R$ 5,00 (adicional)</span>
                     </div>
@@ -136,22 +168,10 @@
                         <iframe src="https://www.youtube.com/embed/HztMSo-kLOs?si=6bk7Pg2YK_IBDMSp" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-features">
-                        <div class="feature-item" data-aos="fade-right" data-aos-delay="300">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Equipamentos de Última Geração</span>
-                        </div>
-                        <div class="feature-item" data-aos="fade-right" data-aos-delay="400">
-                            <i class="fas fa-flask"></i>
-                            <span>Produtos Biodegradáveis e Seguros</span>
-                        </div>
-                        <div class="feature-item" data-aos="fade-right" data-aos-delay="500">
-                            <i class="fas fa-hand-sparkles"></i>
-                            <span>Equipe Especializada e Atenciosa</span>
-                        </div>
-                        <div class="feature-item" data-aos="fade-right" data-aos-delay="600">
-                            <i class="fas fa-clock"></i>
-                            <span>Agilidade sem Perder a Qualidade</span>
-                        </div>
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="300"> <i class="fas fa-check-circle"></i> <span>Equipamentos de Última Geração</span> </div>
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="400"> <i class="fas fa-flask"></i> <span>Produtos Biodegradáveis e Seguros</span> </div>
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="500"> <i class="fas fa-hand-sparkles"></i> <span>Equipe Especializada e Atenciosa</span> </div>
+                        <div class="feature-item" data-aos="fade-right" data-aos-delay="600"> <i class="fas fa-clock"></i> <span>Agilidade sem Perder a Qualidade</span> </div>
                     </div>
                 </div>
             </div>
@@ -164,9 +184,7 @@
                 <div class="reviews-grid">
                     <div class="review-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="review-header">
-                            <div class="review-avatar">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Foto de perfil da cliente Ana Paula S.">
-                            </div>
+                            <div class="review-avatar"> <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Foto de perfil da cliente Ana Paula S."> </div>
                             <div class="review-info">
                                 <h4>Ana Paula S.</h4>
                                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
@@ -177,9 +195,7 @@
                     </div>
                     <div class="review-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="review-header">
-                            <div class="review-avatar">
-                                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto de perfil do cliente Carlos Eduardo L.">
-                            </div>
+                            <div class="review-avatar"> <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto de perfil do cliente Carlos Eduardo L."> </div>
                             <div class="review-info">
                                 <h4>Carlos Eduardo L.</h4>
                                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
@@ -190,9 +206,7 @@
                     </div>
                     <div class="review-card" data-aos="fade-up" data-aos-delay="400">
                         <div class="review-header">
-                            <div class="review-avatar">
-                                <img src="https://randomuser.me/api/portraits/women/72.jpg" alt="Foto de perfil da cliente Fernanda M.">
-                            </div>
+                            <div class="review-avatar"> <img src="https://randomuser.me/api/portraits/women/72.jpg" alt="Foto de perfil da cliente Fernanda M."> </div>
                             <div class="review-info">
                                 <h4>Fernanda M.</h4>
                                 <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
@@ -220,9 +234,7 @@
                                 <h4>Nosso Endereço</h4>
                                 <p>R. São Sebastião, 145 - Chácara Braz Miraglia</p>
                                 <p>Jaú, SP - Brasil</p>
-                                <a href="https://www.google.com/maps/dir/?api=1&destination=R.+S%C3%A3o+Sebasti%C3%A3o,+145+-+Ch%C3%A1cara+Braz+Miraglia,+Ja%C3%BA+-+SP" target="_blank" class="route-button">
-                                    <i class="fas fa-directions"></i> Traçar Rota
-                                </a>
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=R.+S%C3%A3o+Sebasti%C3%A3o,+145+-+Ch%C3%A1cara+Braz+Miraglia,+Ja%C3%BA+-+SP" target="_blank" class="route-button"> <i class="fas fa-directions"></i> Traçar Rota </a>
                             </div>
                         </div>
                         <div class="info-item">
@@ -243,7 +255,7 @@
                         <div class="info-item">
                             <i class="fas fa-clock"></i>
                             <div>
-                                <h4>Horário de Funcionamento</h4>
+                                <h4>Horário de Funcionamento <span class="status-badge" id="status-loja"></span></h4>
                                 <p>Seg-Sex: 8h00 - 18h00</p>
                                 <p>Sábado: 8h00 - 12h00</p>
                                 <p>Domingo: Fechado</p>
@@ -266,7 +278,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Telefone (WhatsApp):</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required pattern="\(\d{2}\) \d{5}-\d{4}">
+                        <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX" required>
                         <div class="error-message" id="phone-error"></div>
                     </div>
                     <div class="form-group">
@@ -350,12 +362,6 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Inicializa a biblioteca de animações
-        AOS.init({
-            duration: 800,
-            once: true,
-        });
-    </script>
+    
 </body>
 </html>
