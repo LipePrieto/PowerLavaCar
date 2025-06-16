@@ -58,14 +58,14 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(var(--dark-blue-1), 0.95);
+    background: rgba(26, 26, 46, 0.95);
     backdrop-filter: blur(10px);
     z-index: 1000;
     transition: all 0.3s ease;
 }
 
 .navbar.scrolled {
-    background: rgba(var(--dark-blue-1), 0.98);
+    background: rgba(26, 26, 46, 0.98);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -85,7 +85,7 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-purple);
-    text-decoration: none; /* Adicionado para garantir que o logo não tenha sublinhado */
+    text-decoration: none;
 }
 
 .nav-logo i {
@@ -134,16 +134,16 @@ body {
     font-size: 0.95rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(var(--primary-purple), 0.3);
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
 }
 
 .cta-button-small:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(var(--primary-purple), 0.4);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
 }
 
 .cta-button-small::after {
-    content: none; /* Remove o underline do hover */
+    content: none;
 }
 
 
@@ -151,7 +151,7 @@ body {
     display: none;
     flex-direction: column;
     cursor: pointer;
-    z-index: 1001; /* Garante que o hambúrguer fique acima do menu */
+    z-index: 1001;
 }
 
 .hamburger span {
@@ -162,7 +162,6 @@ body {
     transition: 0.3s;
 }
 
-/* Hamburger X animation */
 .hamburger.active span:nth-child(1) {
     transform: rotate(-45deg) translate(-5px, 6px);
 }
@@ -248,56 +247,13 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 4px 15px rgba(var(--primary-purple), 0.3);
-    text-decoration: none; /* Para o botão ser um link */
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    text-decoration: none;
 }
 
 .cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--primary-purple), 0.4);
-}
-
-.hero-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fadeInRight 1s ease;
-    position: relative;
-}
-
-.hero-main-image {
-    width: 100%;
-    max-width: 650px;
-    height: 500px;
-    object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    animation: float 3s ease-in-out infinite;
-}
-
-.hero-image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(var(--primary-purple), 0.3), rgba(var(--secondary-purple), 0.3));
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.hero-image:hover .hero-image-overlay {
-    opacity: 1;
-}
-
-.car-wash-icon {
-    font-size: 6rem;
-    color: var(--text-white);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
 
 @keyframes float {
@@ -326,6 +282,28 @@ body {
         transform: translateX(0);
     }
 }
+
+/* === CÓDIGO ADICIONADO PARA O VÍDEO === */
+.hero-video {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Proporção 16:9 */
+    height: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero-main-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/* ======================================= */
+
 
 /* Hero Stats */
 .hero-stats {
@@ -397,24 +375,24 @@ body {
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(30px);
-    position: relative; /* Para o efeito ripple */
-    overflow: hidden; /* Para o efeito ripple */
+    position: relative;
+    overflow: hidden;
 }
 
-.service-card.aos-animate { /* Mantido para compatibilidade com o JS existente */
+.service-card.aos-animate {
     opacity: 1;
     transform: translateY(0);
 }
 
 .service-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(var(--primary-purple), 0.2);
-    border-color: rgba(var(--primary-purple), 0.3);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.3);
 }
 
 .service-card.premium {
     border: 2px solid var(--primary-purple);
-    background: linear-gradient(135deg, rgba(var(--primary-purple), 0.1), rgba(var(--secondary-purple), 0.1));
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1));
 }
 
 .service-card.additional {
@@ -498,7 +476,7 @@ body {
 }
 
 .feature-item:hover {
-    background: rgba(var(--primary-purple), 0.2);
+    background: rgba(139, 92, 246, 0.2);
     transform: translateX(10px);
 }
 
@@ -546,7 +524,7 @@ body {
 
 .review-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(var(--primary-purple), 0.2);
+    box-shadow: 0 15px 30px rgba(139, 92, 246, 0.2);
 }
 
 .review-header {
@@ -640,7 +618,7 @@ body {
 }
 
 .info-item:hover {
-    background: rgba(var(--primary-purple), 0.2);
+    background: rgba(139, 92, 246, 0.2);
     transform: translateY(-3px);
 }
 
@@ -675,123 +653,12 @@ body {
     font-weight: 500;
     transition: all 0.3s ease;
     margin-top: 10px;
-    box-shadow: 0 4px 10px rgba(var(--primary-purple), 0.2);
+    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
 }
 
 .route-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--primary-purple), 0.4);
-}
-
-/* Privacy Policy Styles (Mantido como estava, sem grandes mudanças) */
-.privacy-policy {
-    padding: 120px 0 80px;
-    background: var(--gradient-main-bg);
-    min-height: 100vh;
-}
-
-.privacy-header {
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-.privacy-header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: var(--gradient-purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
-}
-
-.last-updated {
-    color: var(--text-light-gray);
-    font-size: 1rem;
-}
-
-.privacy-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.privacy-section {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.privacy-section h2 {
-    color: var(--primary-purple);
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.privacy-section p {
-    color: var(--text-light-gray);
-    line-height: 1.7;
-    margin-bottom: 15px;
-}
-
-.privacy-section ul {
-    margin: 15px 0;
-    padding-left: 20px;
-}
-
-.privacy-section li {
-    color: var(--text-light-gray);
-    line-height: 1.6;
-    margin-bottom: 8px;
-}
-
-.privacy-section strong {
-    color: var(--text-white);
-}
-
-.contact-info {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0;
-}
-
-.contact-info p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.contact-info i {
-    color: var(--primary-purple);
-    width: 20px;
-}
-
-.privacy-footer {
-    text-align: center;
-    margin-top: 50px;
-}
-
-.back-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--gradient-purple);
-    color: var(--text-white);
-    text-decoration: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.back-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--primary-purple), 0.4);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
 
 /* Booking Section */
@@ -817,7 +684,7 @@ body {
 
 .form-group {
     margin-bottom: 25px;
-    position: relative; /* Para posicionar a mensagem de erro */
+    position: relative;
 }
 
 .form-group label {
@@ -844,7 +711,7 @@ body {
 .form-group select:focus {
     outline: none;
     border-color: var(--primary-purple);
-    box-shadow: 0 0 0 3px rgba(var(--primary-purple), 0.2);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
 }
 
 .form-group input::placeholder {
@@ -856,35 +723,32 @@ body {
     color: var(--text-white);
 }
 
-/* Estilo para label focada */
 .form-group.focused label {
     color: var(--primary-purple);
     transform: translateY(-2px);
 }
 
-/* Estilo para erro de validação */
 .form-group.error input,
 .form-group.error select {
     border-color: var(--red-error);
-    box-shadow: 0 0 0 3px rgba(var(--red-error), 0.2);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 }
 
 .error-message {
     color: var(--red-error);
     font-size: 0.85rem;
     margin-top: 5px;
-    display: none; /* Escondido por padrão */
+    display: none;
 }
 
 .form-group.error .error-message {
-    display: block; /* Mostra a mensagem de erro quando há erro */
+    display: block;
 }
-
 
 .checkbox-group {
     display: flex;
     align-items: center;
-    margin-bottom: 25px; /* Ajuste para não ter margem extra no final */
+    margin-bottom: 25px;
 }
 
 .checkbox-label {
@@ -943,12 +807,12 @@ body {
 
 .submit-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--primary-purple), 0.4);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
 
 .confirmation-message {
-    background: rgba(var(--light-green), 0.1);
-    border: 1px solid rgba(var(--light-green), 0.3);
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
     border-radius: 20px;
     padding: 40px;
     text-align: center;
@@ -1003,7 +867,7 @@ body {
 }
 
 .edit-button {
-    background: linear-gradient(135deg, var(--dark-gray), #4b5563); /* Cor para o botão de editar */
+    background: linear-gradient(135deg, var(--dark-gray), #4b5563);
 }
 
 .whatsapp-button:hover,
@@ -1131,16 +995,7 @@ body {
     .hero-title {
         font-size: 3rem;
     }
-    
-    .hero-main-image {
-        max-width: 500px;
-        height: 400px;
-    }
-    
-    .car-wash-icon {
-        font-size: 4rem;
-    }
-    
+
     .services-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 25px;
@@ -1157,7 +1012,7 @@ body {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background: rgba(var(--dark-blue-1), 0.98);
+        background: rgba(26, 26, 46, 0.98);
         width: 100%;
         text-align: center;
         transition: 0.3s;
@@ -1235,15 +1090,6 @@ body {
         font-size: 1.1rem;
     }
     
-    .hero-main-image {
-        max-width: 400px;
-        height: 350px;
-    }
-    
-    .car-wash-icon {
-        font-size: 3rem;
-    }
-    
     .service-card {
         padding: 20px;
     }
@@ -1295,9 +1141,9 @@ body {
     transform: scale(0);
     animation: ripple-animation 0.6s linear;
     pointer-events: none;
-    z-index: 1; /* Garante que o ripple não afete o conteúdo */
+    z-index: 1;
 }
-    
+
 @keyframes ripple-animation {
     to {
         transform: scale(4);
