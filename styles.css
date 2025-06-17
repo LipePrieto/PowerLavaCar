@@ -606,7 +606,6 @@ body {
     gap: 30px;
 }
 
-/* ===== INÍCIO DAS MODIFICAÇÕES ===== */
 .info-item {
     display: flex;
     align-items: flex-start; 
@@ -625,7 +624,7 @@ body {
 .info-item i {
     font-size: 1.5rem;
     color: var(--primary-purple);
-    margin-top: 3px; /* Pequeno ajuste para alinhar melhor com o texto */
+    margin-top: 3px;
     min-width: 24px;
 }
 
@@ -641,10 +640,11 @@ body {
     margin: 0;
 }
 
+/* ===== INÍCIO DA MODIFICAÇÃO FINAL ===== */
 .route-button {
     display: flex; 
     align-items: center;
-    justify-content: center; /* Adicione esta linha */
+    justify-content: center; /* Adicionado para centralizar o conteúdo */
     gap: 8px;
     background: var(--gradient-purple);
     color: var(--text-white);
@@ -657,13 +657,12 @@ body {
     box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
     width: fit-content;
 }
+/* ===== FIM DA MODIFICAÇÃO FINAL ===== */
 
 .route-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
-/* ===== FIM DAS MODIFICAÇÕES ===== */
-
 
 /* Booking Section */
 .booking {
