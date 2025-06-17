@@ -14,7 +14,7 @@
     <meta property="og:image" content="URL_DA_IMAGEM_PARA_COMPARTILHAMENTO.jpg"> <meta property="og:url" content="URL_DO_SEU_SITE.com.br"> <meta property="og:type" content="website">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -307,6 +307,16 @@
             <div class="container booking-container">
                 <h2 class="section-title" data-aos="fade-up">Agende sua Lavagem</h2>
                 <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Preencha o formulário abaixo e garanta um horário para o seu carro!</p>
+
+                <div id="booking-direct-whatsapp-info" class="confirmation-message" style="display: none;">
+                    <div class="confirmation-content">
+                        <i class="fas fa-paper-plane"></i>
+                        <h3>Aguarde! Estamos te redirecionando para o WhatsApp...</h3>
+                        <p>Por favor, envie a mensagem pré-preenchida no WhatsApp para confirmar seu agendamento.</p>
+                        <p>Você será redirecionado automaticamente. Caso não seja, <a href="#" id="manual-whatsapp-link" class="cta-button-small" style="margin-top: 15px; display: inline-flex;">Clique aqui para enviar manualmente</a></p>
+                    </div>
+                </div>
+                
                 <form id="booking-form" class="booking-form" data-aos="fade-in" data-aos-delay="200" novalidate>
                     <div class="form-group">
                         <label for="name">Seu Nome Completo:</label>
@@ -350,17 +360,6 @@
 
                     <button type="submit" class="submit-button"><i class="fas fa-calendar-alt"></i> Agendar Agora</button>
                 </form>
-
-                <div id="confirmation" class="confirmation-message" style="display: none;">
-                    <div class="confirmation-content">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Envie para Confirmar seu Agendamento!</h3>
-                        <p>Para concluir seu pedido de agendamento, clique no botão 'Enviar via WhatsApp' e nos envie os detalhes por lá. Só assim poderemos dar continuidade ao atendimento.</p>
-                        <div id="confirmation-details"></div>
-                        <button id="whatsapp-button" class="whatsapp-button"><i class="fab fa-whatsapp"></i> Enviar via WhatsApp</button>
-                        <button id="edit-button" class="edit-button"><i class="fas fa-edit"></i> Editar Agendamento</button>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -400,7 +399,7 @@
                 </div>
             </div>
         </section>
-        </main>
+    </main>
 
     <footer class="footer">
         <div class="container footer-content">
