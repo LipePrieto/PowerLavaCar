@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.toggle('active');
         });
         document.querySelectorAll('.nav-link').forEach(link => {
-            if (!link.classList.contains('cta-button-small')) { // Para não fechar ao clicar em "Agendar"
+            if (!link.classList.contains('cta-button-small')) {
                  link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
                     navMenu.classList.remove('active');
@@ -109,7 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===================================================================
     const packageOptions = document.querySelectorAll('.options-list input[type="checkbox"]');
     const customTotalPriceEl = document.getElementById('custom-total-price');
-    if (packageOptions.length > 0 && customTotalPriceEl) {
+    const agendarPacoteBtn = document.getElementById('agendar-pacote-btn');
+
+    if (packageOptions.length > 0 && customTotalPriceEl && agendarPacoteBtn) {
         function calculateCustomPackage() {
             let total = 0;
             packageOptions.forEach(option => {
@@ -118,6 +120,28 @@ document.addEventListener('DOMContentLoaded', function() {
             customTotalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
         packageOptions.forEach(option => option.addEventListener('change', calculateCustomPackage));
+
+        agendarPacoteBtn.addEventListener('click', () => {
+            let servicosSelecionados = [];
+            packageOptions.forEach(option => {
+                if (option.checked) {
+                    servicosSelecionados.push(option.nextElementSibling.textContent);
+                }
+            });
+
+            if (servicosSelecionados.length === 0) {
+                alert('Por favor, selecione pelo menos um serviço para agendar.');
+                return;
+            }
+
+            const precoTotal = customTotalPriceEl.textContent;
+            const listaServicos = servicosSelecionados.join(', ');
+
+            const whatsappMessage = `Olá! Gostaria de agendar o seguinte pacote:\n\n*Serviços:* ${listaServicos}\n*Total:* ${precoTotal}\n\nQual o próximo passo?`;
+            const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        });
     }
     
     // ===================================================================
