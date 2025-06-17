@@ -1335,3 +1335,12 @@ body {
         opacity: 0;
     }
 }
+#aberto, .aberto {
+    color: #28a745; /* Verde vibrante */
+    font-weight: bold;
+}
+
+#fechado, .fechado {
+    color: #dc3545; /* Vermelho vibrante */
+    font-weight: bold;
+}
