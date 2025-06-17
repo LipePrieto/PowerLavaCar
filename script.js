@@ -1,24 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    // 1. Funcionalidade do Menu Hamburger (Mobile)
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
-    const navbar = document.getElementById('navbar');
-    const navLinks = document.querySelectorAll('.nav-link');
 
-    // Navegação mobile
-    hamburger.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
+    hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
     });
 
-    navLinks.forEach(link => {
+    // Fechar o menu ao clicar em um link
+    document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
             hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
         });
     });
 
-    // Efeito de scroll na navbar
-    window.addEventListener('scroll', function() {
+    // 2. Efeito da Barra de Navegação ao Rolar
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
@@ -26,149 +27,94 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Biblioteca AOS
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            once: true,
-        });
-    }
-
-    // --- STATUS DA LOJA: ATUALIZAÇÃO AUTOMÁTICA ---
-    function atualizarStatusLoja() {
-        const statusEl = document.getElementById('status-loja');
-        if (!statusEl) return;
+    // 3. Status de Funcionamento (Aberto/Fechado)
+    function verificarStatusLoja() {
+        const statusBadge = document.getElementById('status-loja');
+        if (!statusBadge) return;
 
         const agora = new Date();
-        const diaSemana = agora.getDay();
+        const diaSemana = agora.getDay(); // 0 (Domingo) a 6 (Sábado)
         const hora = agora.getHours();
+        const minuto = agora.getMinutes();
+        const horaAtual = hora + (minuto / 60);
+
         let aberto = false;
 
-        if (diaSemana >= 1 && diaSemana <= 5 && hora >= 8 && hora < 18) {
-            aberto = true;
-        } else if (diaSemana === 6 && hora >= 8 && hora < 12) {
-            aberto = true;
+        // Seg a Sex (1 a 5): 08:00 - 18:00
+        if (diaSemana >= 1 && diaSemana <= 5) {
+            if (horaAtual >= 8 && horaAtual < 18) {
+                aberto = true;
+            }
         }
+        // Sábado (6): 08:00 - 12:00
+        else if (diaSemana === 6) {
+            if (horaAtual >= 8 && horaAtual < 12) {
+                aberto = true;
+            }
+        }
+        // Domingo (0): Fechado
 
-        statusEl.textContent = aberto ? 'Aberto Agora' : 'Fechado Agora';
-        statusEl.classList.remove('aberto', 'fechado');
-        statusEl.classList.add(aberto ? 'aberto' : 'fechado');
+        if (aberto) {
+            statusBadge.textContent = 'Aberto';
+            statusBadge.classList.add('aberto');
+            statusBadge.classList.remove('fechado');
+        } else {
+            statusBadge.textContent = 'Fechado';
+            statusBadge.classList.add('fechado');
+            statusBadge.classList.remove('aberto');
+        }
     }
 
-    atualizarStatusLoja();
-    setInterval(atualizarStatusLoja, 60000); // Atualiza a cada 1 minuto
+    // 4. Animação de Contagem dos Números
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200; // Velocidade da animação
 
-    // --- FORMULÁRIO ---
-    const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) {
-        const confirmationDiv = document.getElementById('confirmation');
-        const confirmationDetails = document.getElementById('confirmation-details');
-        const whatsappButton = document.getElementById('whatsapp-button');
-        const editButton = document.getElementById('edit-button');
-        const phoneInput = document.getElementById('phone');
-        const dateInput = document.getElementById('date');
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
 
-        let lastFormData = {};
+                const inc = target / speed;
 
-        // Formatar telefone
-        phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            value = value.substring(0, 11);
-            let formattedValue = '';
-            if (value.length > 0) { formattedValue = '(' + value.substring(0, 2); }
-            if (value.length > 2) { formattedValue += ') ' + value.substring(2, 7); }
-            if (value.length > 7) { formattedValue += '-' + value.substring(7, 11); }
-            e.target.value = formattedValue;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 15);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
         });
+    }
 
-        // Impedir seleção de domingo
-        const today = new Date();
-        today.setDate(today.getDate());
-        dateInput.min = today.toISOString().split('T')[0];
-
-        dateInput.addEventListener('input', function() {
-            const dataSelecionada = new Date(this.value + "T12:00:00Z");
-            if (dataSelecionada.getUTCDay() === 0) {
-                this.value = '';
-                document.getElementById('date-error').textContent = 'Desculpe, não agendamos aos Domingos.';
-                this.closest('.form-group').classList.add('error');
-            } else {
-                document.getElementById('date-error').textContent = '';
-                this.closest('.form-group').classList.remove('error');
+    // Usar Intersection Observer para iniciar a contagem quando visível
+    const heroStats = document.querySelector('.hero-stats');
+    let hasAnimated = false;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !hasAnimated) {
+                animateCounters();
+                hasAnimated = true; // Garante que a animação ocorra apenas uma vez
+                observer.unobserve(entry.target); // Para de observar após animar
             }
         });
+    }, { threshold: 0.5 }); // Inicia quando 50% da seção estiver visível
 
-        // Submissão do formulário (com lógica própria)
-        bookingForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            // Aqui você continua sua lógica de confirmação, validação e WhatsApp
-        });
-
-        // Efeito de foco nos campos
-        const formInputs = document.querySelectorAll('.form-group input, .form-group select');
-        formInputs.forEach(input => {
-            if (input.value) { input.closest('.form-group').classList.add('focused'); }
-            input.addEventListener('focus', function() {
-                this.closest('.form-group').classList.add('focused');
-            });
-            input.addEventListener('blur', function() {
-                if (!this.value) {
-                    this.closest('.form-group').classList.remove('focused');
-                }
-            });
-        });
+    if (heroStats) {
+        observer.observe(heroStats);
     }
+    
+    // 5. Inicialização da Biblioteca de Animações (AOS)
+    AOS.init({
+        duration: 1000, // Duração da animação
+        once: true,     // Animar apenas uma vez
+        offset: 50,     // Começar a animação 50px antes do elemento aparecer
+    });
 
-    // --- ANIMAÇÃO DE CONTADOR ---
-    const heroSection = document.querySelector('.hero');
-    if (heroSection) {
-        const counters = document.querySelectorAll('.stat-number');
-        if (counters.length > 0) {
-            const animateCounters = () => {
-                counters.forEach(counter => {
-                    const target = +counter.getAttribute('data-target');
-                    counter.innerText = '0';
-                    const updateCounter = () => {
-                        const current = +counter.innerText;
-                        const increment = target / 100;
-                        if (current < target) {
-                            counter.innerText = `${Math.ceil(current + increment)}`;
-                            setTimeout(updateCounter, 20);
-                        } else {
-                            counter.innerText = target + '+';
-                        }
-                    };
-                    updateCounter();
-                });
-            };
+    // Chama a função de status da loja assim que a página carrega
+    verificarStatusLoja();
+    // E atualiza a cada minuto para o status mudar em tempo real
+    setInterval(verificarStatusLoja, 60000); 
 
-            const heroObserver = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    animateCounters();
-                    heroObserver.unobserve(heroSection);
-                }
-            }, { threshold: 0.4 });
-            heroObserver.observe(heroSection);
-        }
-    }
-
-    // --- EFEITO DE RIPPLE NOS CARDS DE SERVIÇO ---
-    const serviceCards = document.querySelectorAll('.service-card');
-    if (serviceCards.length > 0) {
-        serviceCards.forEach(card => {
-            card.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                ripple.classList.add('ripple');
-                this.appendChild(ripple);
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - (size / 2);
-                const y = e.clientY - rect.top - (size / 2);
-                ripple.style.width = ripple.style.height = `${size}px`;
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                setTimeout(() => { ripple.remove(); }, 600);
-            });
-        });
-    }
 });
