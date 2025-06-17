@@ -4,6 +4,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // 1. FUNCIONALIDADES GERAIS DA PÁGINA
     // ===================================================================
 
+    // Lógica do Modo Noturno / Claro
+    const themeSwitcher = document.getElementById('theme-switcher');
+    if (themeSwitcher) {
+        const themeIcon = themeSwitcher.querySelector('i');
+        const applyTheme = (theme) => {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                document.body.classList.remove('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        };
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
+
+        themeSwitcher.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
+
     // Menu Hamburger (Mobile)
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
@@ -13,10 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.toggle('active');
         });
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
+            if (!link.classList.contains('cta-button-small')) { // Para não fechar ao clicar em "Agendar"
+                 link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            }
         });
     }
 
@@ -37,57 +65,36 @@ document.addEventListener('DOMContentLoaded', function() {
     function verificarStatusLoja() {
         if (!statusBadge) return;
         const agora = new Date();
-        const diaSemana = agora.getDay(); // 0 (Dom) a 6 (Sáb)
-        const hora = agora.getHours();
-        const minuto = agora.getMinutes();
-        const horaAtual = hora + (minuto / 60);
-
-        let aberto = false;
-        if (diaSemana >= 1 && diaSemana <= 5) { // Seg a Sex
-            if (horaAtual >= 8 && horaAtual < 18) aberto = true;
-        } else if (diaSemana === 6) { // Sábado
-            if (horaAtual >= 8 && horaAtual < 12) aberto = true;
-        }
-
-        if (aberto) {
-            statusBadge.textContent = 'Aberto';
-            statusBadge.classList.add('aberto');
-            statusBadge.classList.remove('fechado');
-        } else {
-            statusBadge.textContent = 'Fechado';
-            statusBadge.classList.add('fechado');
-            statusBadge.classList.remove('aberto');
-        }
+        const diaSemana = agora.getDay();
+        const horaAtual = agora.getHours() + (agora.getMinutes() / 60);
+        let aberto = (diaSemana >= 1 && diaSemana <= 5 && horaAtual >= 8 && horaAtual < 18) || (diaSemana === 6 && horaAtual >= 8 && horaAtual < 12);
+        statusBadge.textContent = aberto ? 'Aberto' : 'Fechado';
+        statusBadge.classList.toggle('aberto', aberto);
+        statusBadge.classList.toggle('fechado', !aberto);
     }
     verificarStatusLoja();
     setInterval(verificarStatusLoja, 60000);
 
     // Animação de Contagem dos Números
     const heroStats = document.querySelector('.hero-stats');
-    function animateCounters() {
-        const counters = document.querySelectorAll('.stat-number');
-        counters.forEach(counter => {
-            const target = +counter.getAttribute('data-target');
-            let count = 0;
-            const inc = target / 200; // Animation speed
-            const updateCount = () => {
-                if (count < target) {
-                    count += inc;
-                    counter.innerText = Math.ceil(count);
-                    setTimeout(updateCount, 1);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            updateCount();
-        });
-    }
     if (heroStats) {
-        let hasAnimated = false;
         const observer = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && !hasAnimated) {
-                animateCounters();
-                hasAnimated = true;
+            if (entries[0].isIntersecting) {
+                document.querySelectorAll('.stat-number').forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    let count = 0;
+                    const updateCount = () => {
+                        const inc = target / 100;
+                        if (count < target) {
+                            count = Math.min(count + inc, target);
+                            counter.innerText = Math.ceil(count);
+                            setTimeout(updateCount, 15);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                });
                 observer.unobserve(heroStats);
             }
         }, { threshold: 0.5 });
@@ -95,14 +102,48 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Inicialização da Biblioteca de Animações (AOS)
-    AOS.init({
-        duration: 1000,
-        once: true,
-        offset: 50,
-    });
+    AOS.init({ duration: 1000, once: true, offset: 50 });
 
     // ===================================================================
-    // 2. LÓGICA DO FORMULÁRIO DE AGENDAMENTO
+    // 2. LÓGICA DA CALCULADORA DE PACOTES
+    // ===================================================================
+    const packageOptions = document.querySelectorAll('.options-list input[type="checkbox"]');
+    const customTotalPriceEl = document.getElementById('custom-total-price');
+    if (packageOptions.length > 0 && customTotalPriceEl) {
+        function calculateCustomPackage() {
+            let total = 0;
+            packageOptions.forEach(option => {
+                if (option.checked) total += parseFloat(option.getAttribute('data-price'));
+            });
+            customTotalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+        packageOptions.forEach(option => option.addEventListener('change', calculateCustomPackage));
+    }
+    
+    // ===================================================================
+    // 3. LÓGICA DA ANIMAÇÃO SVG COM SCROLL
+    // ===================================================================
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        const carPath = document.getElementById("car-path");
+        if (carPath) {
+            const pathLength = carPath.getTotalLength();
+            gsap.set(carPath, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
+            gsap.to(carPath, {
+                strokeDashoffset: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".svg-drawing-section",
+                    start: "top center",
+                    end: "bottom center",
+                    scrub: 1
+                }
+            });
+        }
+    }
+
+    // ===================================================================
+    // 4. LÓGICA DO FORMULÁRIO DE AGENDAMENTO
     // ===================================================================
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
@@ -111,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const whatsappButton = document.getElementById('whatsapp-button');
         const editButton = document.getElementById('edit-button');
 
-        // Inputs do formulário
         const nameInput = document.getElementById('name');
         const phoneInput = document.getElementById('phone');
         const serviceInput = document.getElementById('service');
@@ -119,11 +159,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const pickupInput = document.getElementById('pickup');
         const totalPriceEl = document.getElementById('total-price');
 
-        // Bloquear datas passadas
         const hoje = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', hoje);
 
-        // Máscara para o telefone
         phoneInput.addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '').substring(0, 11);
             if (value.length > 6) value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
@@ -132,33 +170,27 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = value;
         });
 
-        // Função para calcular e atualizar o preço
         function updateTotalPrice() {
             let total = 0;
             const selectedOption = serviceInput.options[serviceInput.selectedIndex];
-            
             if (selectedOption && selectedOption.value) {
                 const priceMatch = selectedOption.text.match(/R\$\s*([\d,]+)/);
                 if (priceMatch && priceMatch[1]) {
                     total += parseFloat(priceMatch[1].replace(',', '.'));
                 }
             }
-
             if (pickupInput.checked) {
                 total += 5;
             }
-
             totalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
         
         serviceInput.addEventListener('change', updateTotalPrice);
         pickupInput.addEventListener('change', updateTotalPrice);
 
-        // --- FUNÇÃO DE VALIDAÇÃO ATUALIZADA ---
         function validateForm() {
             let isValid = true;
             document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
-
             function setError(inputId, message) {
                 const input = document.getElementById(inputId);
                 const errorDiv = document.getElementById(`${inputId}-error`);
@@ -167,40 +199,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
             
-            // Validações de Nome, Telefone e Serviço
             if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
-            const phoneDigits = phoneInput.value.replace(/\D/g, '');
-            if (phoneDigits.length !== 11) setError('phone', 'O celular deve ter 11 dígitos (DDD + número).');
+            if (phoneInput.value.replace(/\D/g, '').length !== 11) setError('phone', 'O celular deve ter 11 dígitos.');
             if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
-
-            // Validação da Data
             if (dateInput.value === '') {
                 setError('date', 'Por favor, escolha uma data.');
             } else {
-                // Adicionado T00:00:00 para evitar problemas com fuso horário
                 const selectedDate = new Date(dateInput.value + 'T00:00:00'); 
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
-
-                // getUTCDay() é usado para consistência, onde 0 é Domingo
                 const dayOfWeek = selectedDate.getUTCDay();
 
-                // NOVO: Verifica se a data selecionada é um Domingo (dia 0)
                 if (dayOfWeek === 0) {
-                    setError('date', 'Não agendamos aos domingos. Por favor, escolha outro dia.');
-                } 
-                // Verifica se a data não é no passado
-                else if (selectedDate < today) {
-                    setError('date', 'Não é possível agendar em uma data passada.');
+                    setError('date', 'Não agendamos aos domingos.');
+                } else if (selectedDate < today) {
+                    setError('date', 'Não é possível agendar em data passada.');
                 }
             }
             return isValid;
         }
 
-        // Evento de submit do formulário
         bookingForm.addEventListener('submit', function(event) {
             event.preventDefault();
-
             if (validateForm()) {
                 const name = nameInput.value;
                 const phone = phoneInput.value;
@@ -209,21 +229,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const pickup = pickupInput.checked ? 'Sim' : 'Não';
                 const total = totalPriceEl.textContent;
                 
-                confirmationDetails.innerHTML = `
-                    <p><strong>Nome:</strong> ${name}</p>
-                    <p><strong>Telefone:</strong> ${phone}</p>
-                    <p><strong>Serviço:</strong> ${service}</p>
-                    <p><strong>Data:</strong> ${date}</p>
-                    <p><strong>Leva e Traz:</strong> ${pickup}</p>
-                    <p><strong>Total Estimado:</strong> ${total}</p>
-                `;
-                
+                confirmationDetails.innerHTML = `<p><strong>Nome:</strong> ${name}</p><p><strong>Telefone:</strong> ${phone}</p><p><strong>Serviço:</strong> ${service}</p><p><strong>Data:</strong> ${date}</p><p><strong>Leva e Traz:</strong> ${pickup}</p><p><strong>Total Estimado:</strong> ${total}</p>`;
                 const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${name}\n*Telefone:* ${phone}\n*Serviço:* ${service}\n*Data:* ${date}\n*Leva e Traz:* ${pickup}\n*Total Estimado:* ${total}`;
                 const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
                 whatsappButton.onclick = () => window.open(whatsappUrl, '_blank');
 
                 bookingForm.style.display = 'none';
                 confirmationDiv.style.display = 'block';
+                window.scrollTo({ top: confirmationDiv.offsetTop - 100, behavior: 'smooth' });
             }
         });
         
@@ -232,5 +245,4 @@ document.addEventListener('DOMContentLoaded', function() {
             bookingForm.style.display = 'block';
         });
     }
-
 });
