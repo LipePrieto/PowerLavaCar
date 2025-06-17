@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ===================================================================
-    // 1. FUNCIONALIDADES GERAIS DA PÁGINA
+    // 1. FUNCIONALIDADES GERAIS E NAVBAR
     // ===================================================================
 
     // Lógica do Modo Noturno / Claro
@@ -52,29 +52,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.getElementById('navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
         });
     }
 
+    // ===================================================================
+    // 2. FUNCIONALIDADES DA PÁGINA PRINCIPAL (INDEX.HTML)
+    // ===================================================================
+
     // Status de Funcionamento (Aberto/Fechado)
     const statusBadge = document.getElementById('status-loja');
-    function verificarStatusLoja() {
-        if (!statusBadge) return;
-        const agora = new Date();
-        const diaSemana = agora.getDay();
-        const horaAtual = agora.getHours() + (agora.getMinutes() / 60);
-        let aberto = (diaSemana >= 1 && diaSemana <= 5 && horaAtual >= 8 && horaAtual < 18) || (diaSemana === 6 && horaAtual >= 8 && horaAtual < 12);
-        statusBadge.textContent = aberto ? 'Aberto' : 'Fechado';
-        statusBadge.classList.toggle('aberto', aberto);
-        statusBadge.classList.toggle('fechado', !aberto);
+    if (statusBadge) {
+        function verificarStatusLoja() {
+            const agora = new Date();
+            const diaSemana = agora.getDay();
+            const horaAtual = agora.getHours() + (agora.getMinutes() / 60);
+            let aberto = (diaSemana >= 1 && diaSemana <= 5 && horaAtual >= 8 && horaAtual < 18) || (diaSemana === 6 && horaAtual >= 8 && horaAtual < 12);
+            statusBadge.textContent = aberto ? 'Aberto' : 'Fechado';
+            statusBadge.classList.toggle('aberto', aberto);
+            statusBadge.classList.toggle('fechado', !aberto);
+        }
+        verificarStatusLoja();
+        setInterval(verificarStatusLoja, 60000);
     }
-    verificarStatusLoja();
-    setInterval(verificarStatusLoja, 60000);
-
+    
     // Animação de Contagem dos Números
     const heroStats = document.querySelector('.hero-stats');
     if (heroStats) {
@@ -102,15 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Inicialização da Biblioteca de Animações (AOS)
-    AOS.init({ duration: 1000, once: true, offset: 50 });
-
-    // ===================================================================
-    // 2. LÓGICA DA CALCULADORA DE PACOTES
-    // ===================================================================
+    if(typeof AOS !== 'undefined') {
+        AOS.init({ duration: 1000, once: true, offset: 50 });
+    }
+    
+    // Lógica da Calculadora de Pacotes
     const packageOptions = document.querySelectorAll('.options-list input[type="checkbox"]');
     const customTotalPriceEl = document.getElementById('custom-total-price');
     const agendarPacoteBtn = document.getElementById('agendar-pacote-btn');
-
     if (packageOptions.length > 0 && customTotalPriceEl && agendarPacoteBtn) {
         function calculateCustomPackage() {
             let total = 0;
@@ -124,65 +125,33 @@ document.addEventListener('DOMContentLoaded', function() {
         agendarPacoteBtn.addEventListener('click', () => {
             let servicosSelecionados = [];
             packageOptions.forEach(option => {
-                if (option.checked) {
-                    servicosSelecionados.push(option.nextElementSibling.textContent);
-                }
+                if (option.checked) servicosSelecionados.push(option.nextElementSibling.textContent);
             });
-
             if (servicosSelecionados.length === 0) {
                 alert('Por favor, selecione pelo menos um serviço para agendar.');
                 return;
             }
-
             const precoTotal = customTotalPriceEl.textContent;
             const listaServicos = servicosSelecionados.join(', ');
-
             const whatsappMessage = `Olá! Gostaria de agendar o seguinte pacote:\n\n*Serviços:* ${listaServicos}\n*Total:* ${precoTotal}\n\nQual o próximo passo?`;
             const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
-            
             window.open(whatsappUrl, '_blank');
         });
     }
-    
-    // ===================================================================
-    // 3. LÓGICA DA ANIMAÇÃO SVG COM SCROLL
-    // ===================================================================
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-        const carPath = document.getElementById("car-path");
-        if (carPath) {
-            const pathLength = carPath.getTotalLength();
-            gsap.set(carPath, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
-            gsap.to(carPath, {
-                strokeDashoffset: 0,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".svg-drawing-section",
-                    start: "top center",
-                    end: "bottom center",
-                    scrub: 1
-                }
-            });
-        }
-    }
 
-    // ===================================================================
-    // 4. LÓGICA DO FORMULÁRIO DE AGENDAMENTO
-    // ===================================================================
+    // Lógica do Formulário de Agendamento
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
         const confirmationDiv = document.getElementById('confirmation');
         const confirmationDetails = document.getElementById('confirmation-details');
         const whatsappButton = document.getElementById('whatsapp-button');
         const editButton = document.getElementById('edit-button');
-
         const nameInput = document.getElementById('name');
         const phoneInput = document.getElementById('phone');
         const serviceInput = document.getElementById('service');
         const dateInput = document.getElementById('date');
         const pickupInput = document.getElementById('pickup');
         const totalPriceEl = document.getElementById('total-price');
-
         const hoje = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', hoje);
 
@@ -199,16 +168,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedOption = serviceInput.options[serviceInput.selectedIndex];
             if (selectedOption && selectedOption.value) {
                 const priceMatch = selectedOption.text.match(/R\$\s*([\d,]+)/);
-                if (priceMatch && priceMatch[1]) {
-                    total += parseFloat(priceMatch[1].replace(',', '.'));
-                }
+                if (priceMatch && priceMatch[1]) total += parseFloat(priceMatch[1].replace(',', '.'));
             }
-            if (pickupInput.checked) {
-                total += 5;
-            }
+            if (pickupInput.checked) total += 5;
             totalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
-        
         serviceInput.addEventListener('change', updateTotalPrice);
         pickupInput.addEventListener('change', updateTotalPrice);
 
@@ -217,28 +181,21 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
             function setError(inputId, message) {
                 const input = document.getElementById(inputId);
-                const errorDiv = document.getElementById(`${inputId}-error`);
                 input.parentElement.classList.add('error');
-                errorDiv.textContent = message;
+                document.getElementById(`${inputId}-error`).textContent = message;
                 isValid = false;
             }
-            
             if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
             if (phoneInput.value.replace(/\D/g, '').length !== 11) setError('phone', 'O celular deve ter 11 dígitos.');
             if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
             if (dateInput.value === '') {
                 setError('date', 'Por favor, escolha uma data.');
             } else {
-                const selectedDate = new Date(dateInput.value + 'T00:00:00'); 
+                const selectedDate = new Date(dateInput.value + 'T00:00:00');
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
-                const dayOfWeek = selectedDate.getUTCDay();
-
-                if (dayOfWeek === 0) {
-                    setError('date', 'Não agendamos aos domingos.');
-                } else if (selectedDate < today) {
-                    setError('date', 'Não é possível agendar em data passada.');
-                }
+                if (selectedDate.getUTCDay() === 0) setError('date', 'Não agendamos aos domingos.');
+                else if (selectedDate < today) setError('date', 'Não é possível agendar em data passada.');
             }
             return isValid;
         }
@@ -246,17 +203,18 @@ document.addEventListener('DOMContentLoaded', function() {
         bookingForm.addEventListener('submit', function(event) {
             event.preventDefault();
             if (validateForm()) {
-                const name = nameInput.value;
-                const phone = phoneInput.value;
-                const service = serviceInput.options[serviceInput.selectedIndex].text;
-                const date = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('pt-BR');
-                const pickup = pickupInput.checked ? 'Sim' : 'Não';
-                const total = totalPriceEl.textContent;
+                const formData = {
+                    name: nameInput.value,
+                    phone: phoneInput.value,
+                    service: serviceInput.options[serviceInput.selectedIndex].text,
+                    date: new Date(dateInput.value + 'T00:00:00').toLocaleDateString('pt-BR'),
+                    pickup: pickupInput.checked ? 'Sim' : 'Não',
+                    total: totalPriceEl.textContent
+                };
                 
-                confirmationDetails.innerHTML = `<p><strong>Nome:</strong> ${name}</p><p><strong>Telefone:</strong> ${phone}</p><p><strong>Serviço:</strong> ${service}</p><p><strong>Data:</strong> ${date}</p><p><strong>Leva e Traz:</strong> ${pickup}</p><p><strong>Total Estimado:</strong> ${total}</p>`;
-                const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${name}\n*Telefone:* ${phone}\n*Serviço:* ${service}\n*Data:* ${date}\n*Leva e Traz:* ${pickup}\n*Total Estimado:* ${total}`;
-                const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
-                whatsappButton.onclick = () => window.open(whatsappUrl, '_blank');
+                confirmationDetails.innerHTML = `<p><strong>Nome:</strong> ${formData.name}</p><p><strong>Telefone:</strong> ${formData.phone}</p><p><strong>Serviço:</strong> ${formData.service}</p><p><strong>Data:</strong> ${formData.date}</p><p><strong>Leva e Traz:</strong> ${formData.pickup}</p><p><strong>Total Estimado:</strong> ${formData.total}</p>`;
+                const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${formData.name}\n*Telefone:* ${formData.phone}\n*Serviço:* ${formData.service}\n*Data:* ${formData.date}\n*Leva e Traz:* ${formData.pickup}\n*Total Estimado:* ${formData.total}`;
+                whatsappButton.onclick = () => window.open(`https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
 
                 bookingForm.style.display = 'none';
                 confirmationDiv.style.display = 'block';
@@ -269,4 +227,40 @@ document.addEventListener('DOMContentLoaded', function() {
             bookingForm.style.display = 'block';
         });
     }
+
+    // ===================================================================
+    // 4. ANIMAÇÕES DA PÁGINA SOBRE NÓS
+    // ===================================================================
+    if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animação da Linha do Tempo
+        if (document.querySelector('.timeline-section')) {
+            const milestones = gsap.utils.toArray('.milestone');
+            milestones.forEach(milestone => {
+                gsap.to(milestone, {
+                    opacity: 1,
+                    x: 0,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: milestone,
+                        start: 'top 85%',
+                        end: 'bottom 75%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            });
+
+            gsap.to(".timeline-road-fill", {
+                scaleY: 1,
+                scrollTrigger: {
+                    trigger: ".timeline-section",
+                    start: "top 30%",
+                    end: "bottom 80%",
+                    scrub: 1.5,
+                }
+            });
+        }
+    }
+
 });
