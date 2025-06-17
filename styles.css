@@ -1822,3 +1822,50 @@ body.light-mode {
 @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
 #aberto, .aberto { color: #28a745; font-weight: bold; }
 #fechado, .fechado { color: #dc3545; font-weight: bold; }
+
+/* --- Ajustes para o Checkbox Leva e Traz --- */
+.highlight-option {
+    background: rgba(139, 92, 246, 0.15); /* Cor de fundo suave */
+    border: 1px solid var(--primary-purple); /* Borda destacada */
+    padding: 15px 20px; /* Padding para dar espaço */
+    border-radius: 10px; /* Bordas arredondadas */
+    margin-bottom: 30px; /* Mais espaço para separar dos outros campos */
+    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); /* Sombra suave */
+    transition: all 0.3s ease;
+    display: flex; /* Garante que o conteúdo fique centralizado/organizado */
+    align-items: center; /* Alinha itens verticalmente */
+}
+
+.highlight-option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
+.highlight-option .checkbox-label {
+    width: 100%; /* Garante que o label ocupe todo o espaço */
+    justify-content: space-between; /* Espaça o checkmark do texto */
+    align-items: center;
+    font-size: 1.1rem; /* Aumenta um pouco o texto */
+}
+
+.highlight-option .option-text {
+    color: var(--text-white); /* Garante que o texto seja branco no modo escuro */
+    font-weight: 500;
+}
+
+.highlight-option .price-highlight {
+    color: var(--light-green); /* Destaca o preço com uma cor vibrante */
+    font-weight: 700;
+    margin-left: 10px; /* Espaçamento entre o texto e o preço */
+}
+
+/* Ajustes para o Light Mode */
+body.light-mode .highlight-option {
+    background: rgba(139, 92, 246, 0.05); /* Fundo mais claro no light mode */
+    border-color: var(--light-border); /* Borda mais clara */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .highlight-option .option-text {
+    color: var(--light-text); /* Texto escuro no light mode */
+}
