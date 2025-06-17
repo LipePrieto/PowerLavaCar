@@ -117,8 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const serviceInput = document.getElementById('service');
         const dateInput = document.getElementById('date');
         const pickupInput = document.getElementById('pickup');
-        
-        // --- NOVO: Elemento para exibir o preço total ---
         const totalPriceEl = document.getElementById('total-price');
 
         // Bloquear datas passadas
@@ -134,35 +132,29 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = value;
         });
 
-        // --- NOVO: Função para calcular e atualizar o preço ---
+        // Função para calcular e atualizar o preço
         function updateTotalPrice() {
             let total = 0;
             const selectedOption = serviceInput.options[serviceInput.selectedIndex];
             
             if (selectedOption && selectedOption.value) {
-                // Extrai o número do texto da opção (ex: "Lavagem Expressa - R$ 40,00")
                 const priceMatch = selectedOption.text.match(/R\$\s*([\d,]+)/);
                 if (priceMatch && priceMatch[1]) {
-                    // Converte o preço para um número (trocando vírgula por ponto)
                     total += parseFloat(priceMatch[1].replace(',', '.'));
                 }
             }
 
-            // Adiciona o valor do serviço Leva e Traz
             if (pickupInput.checked) {
                 total += 5;
             }
 
-            // Formata e exibe o total
             totalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
         
-        // --- NOVO: Adiciona os gatilhos para atualizar o preço ---
         serviceInput.addEventListener('change', updateTotalPrice);
         pickupInput.addEventListener('change', updateTotalPrice);
 
-
-        // Função para validar o formulário
+        // --- FUNÇÃO DE VALIDAÇÃO ATUALIZADA ---
         function validateForm() {
             let isValid = true;
             document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
@@ -174,17 +166,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 errorDiv.textContent = message;
                 isValid = false;
             }
-
+            
+            // Validações de Nome, Telefone e Serviço
             if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
             const phoneDigits = phoneInput.value.replace(/\D/g, '');
             if (phoneDigits.length !== 11) setError('phone', 'O celular deve ter 11 dígitos (DDD + número).');
             if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
+
+            // Validação da Data
             if (dateInput.value === '') {
                 setError('date', 'Por favor, escolha uma data.');
             } else {
-                const selectedDate = new Date(dateInput.value + 'T00:00:00');
-                const today = new Date(); today.setHours(0, 0, 0, 0);
-                if (selectedDate < today) setError('date', 'Não é possível agendar em uma data passada.');
+                // Adicionado T00:00:00 para evitar problemas com fuso horário
+                const selectedDate = new Date(dateInput.value + 'T00:00:00'); 
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                // getUTCDay() é usado para consistência, onde 0 é Domingo
+                const dayOfWeek = selectedDate.getUTCDay();
+
+                // NOVO: Verifica se a data selecionada é um Domingo (dia 0)
+                if (dayOfWeek === 0) {
+                    setError('date', 'Não agendamos aos domingos. Por favor, escolha outro dia.');
+                } 
+                // Verifica se a data não é no passado
+                else if (selectedDate < today) {
+                    setError('date', 'Não é possível agendar em uma data passada.');
+                }
             }
             return isValid;
         }
@@ -199,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const service = serviceInput.options[serviceInput.selectedIndex].text;
                 const date = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('pt-BR');
                 const pickup = pickupInput.checked ? 'Sim' : 'Não';
-                const total = totalPriceEl.textContent; // Pega o total já formatado
+                const total = totalPriceEl.textContent;
                 
                 confirmationDetails.innerHTML = `
                     <p><strong>Nome:</strong> ${name}</p>
