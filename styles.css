@@ -1001,7 +1001,8 @@ body {
 .about-hero-section, .philosophy-section, .team-interactive-section, .cta-final-section, .static-page-section, .timeline-section {
     padding: 120px 0;
     position: relative;
-    z-index: 2;
+    /* Aumente o z-index para garantir que elas fiquem acima de elementos com z-index padrão (0 ou auto) */
+    z-index: 10; /* Ajustado de 2 para 10. Você pode precisar ajustar dependendo de outros elementos. */
     transition: background 0.3s;
 }
 
@@ -1381,7 +1382,10 @@ body.light-mode {
 .custom-package {
     padding: 120px 0;
     background: var(--gradient-section-bg-2);
-    transition: background 0.3s; /* Adicionei transition aqui para o modo claro */
+    transition: background 0.3s;
+    /* Adicione um z-index maior para garantir que ele esteja acima das seções da página "Sobre" */
+    position: relative; /* Garante que z-index funcione */
+    z-index: 20; /* Maior que 10 */
 }
 .package-builder {
     display: grid;
@@ -1392,7 +1396,10 @@ body.light-mode {
     padding: 40px;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: background 0.3s, border-color 0.3s; /* Adicionei transition aqui para o modo claro */
+    transition: background 0.3s, border-color 0.3s;
+    /* Também aplique z-index se este elemento estiver fora do .custom-package ou precisar de prioridade */
+    position: relative;
+    z-index: 21; /* Maior que o pai ou outras seções */
 }
 .package-options h3, .package-total h3 {
     color: var(--primary-purple);
@@ -1426,7 +1433,7 @@ body.light-mode {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: background 0.3s; /* Adicionei transition aqui para o modo claro */
+    transition: background 0.3s;
 }
 .total-display {
     margin-bottom: 20px;
@@ -1450,7 +1457,9 @@ body.light-mode {
     min-height: 80vh;
     display: flex;
     align-items: center;
-    transition: background 0.3s; /* Adicionei transition aqui para o modo claro */
+    transition: background 0.3s;
+    position: relative; /* Garante que z-index funcione */
+    z-index: 10; /* Mantém no mesmo nível das seções "Sobre" ou ajusta conforme necessidade */
 }
 #car-drawing-container {
     width: 100%;
@@ -1463,8 +1472,8 @@ body.light-mode {
     .hero-container { grid-template-columns: 1fr; text-align: center; gap: 30px; }
     .hero-title { font-size: 3rem; }
     .services-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-    .video-container { grid-template-columns: 1fr; gap: 40px; } /* Adicionei esta linha */
-    .map-container { grid-template-columns: 1fr; } /* Adicionei esta linha */
+    .video-container { grid-template-columns: 1fr; gap: 40px; }
+    .map-container { grid-template-columns: 1fr; }
     /* Removida a linha .about-content para evitar conflitos com os novos estilos de página */
 }
 
@@ -1484,13 +1493,13 @@ body.light-mode {
     .footer-content { grid-template-columns: 1fr; gap: 30px; text-align: center; }
     .booking-form { padding: 30px 20px; }
     /* Removidas as linhas .about-us-section, .team-section, .about-content, .about-text para evitar conflitos */
-    .package-builder { grid-template-columns: 1fr; padding: 25px; } /* Adicionei padding aqui */
+    .package-builder { grid-template-columns: 1fr; padding: 25px; }
     .nav-container { position: relative; }
-    .theme-switcher { margin-left: auto; margin-right: 20px; transform: translateY(-50%); } /* Ajustado para melhor posicionamento */
+    .theme-switcher { margin-left: auto; margin-right: 20px; transform: translateY(-50%); }
 
     /* ESTILOS PARA PÁGINAS DE CONTEÚDO (SOBRE, POLÍTICAS) EM MOBILE */
     .custom-package, .svg-drawing-section, .philosophy-section, .team-interactive-section, .cta-final-section, .static-page-section, .about-hero-section {
-        padding: 100px 20px 60px; /* Ajuste de padding geral para seções de conteúdo */
+        padding: 100px 20px 60px;
     }
     .about-hero-title {
         font-size: 2.5rem;
@@ -1499,7 +1508,7 @@ body.light-mode {
         font-size: 1.1rem;
     }
     .timeline-road {
-        left: 20px; /* Desloca a linha do tempo para a esquerda no mobile */
+        left: 20px;
     }
     .milestone {
         width: 100%;
@@ -1509,16 +1518,16 @@ body.light-mode {
         left: 0 !important;
     }
     .milestone::after {
-        left: 10px !important; /* Ajusta a bolinha do milestone */
+        left: 10px !important;
     }
     .team-grid-interactive {
-        grid-template-columns: 1fr; /* Coloca a equipe em uma única coluna */
+        grid-template-columns: 1fr;
     }
     .flip-card {
-        height: 350px; /* Ajusta a altura do cartão flip no mobile */
+        height: 350px;
     }
     .static-page-content {
-        padding: 25px; /* Reduz padding em páginas de conteúdo estático */
+        padding: 25px;
     }
     .static-page-content h1 {
         font-size: 2rem;
@@ -1538,7 +1547,7 @@ body.light-mode {
 }
 
 /* Animation Classes */
-@keyframes cta-pulse { /* Adicionei esta animação que estava faltando */
+@keyframes cta-pulse {
     0% { box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
     50% { box-shadow: 0 6px 25px rgba(168, 85, 247, 0.5); }
     100% { box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
