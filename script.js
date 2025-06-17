@@ -117,24 +117,50 @@ document.addEventListener('DOMContentLoaded', function() {
         const serviceInput = document.getElementById('service');
         const dateInput = document.getElementById('date');
         const pickupInput = document.getElementById('pickup');
+        
+        // --- NOVO: Elemento para exibir o preço total ---
+        const totalPriceEl = document.getElementById('total-price');
 
-        // --- NOVO: Bloquear datas passadas no calendário ---
+        // Bloquear datas passadas
         const hoje = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', hoje);
 
-        // --- NOVO: Máscara para o campo de telefone ---
+        // Máscara para o telefone
         phoneInput.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
-            value = value.substring(0, 11); // Limita a 11 dígitos
-            if (value.length > 6) {
-                value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
-            } else if (value.length > 2) {
-                value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
-            } else if (value.length > 0) {
-                value = value.replace(/^(\d*)/, '($1');
-            }
+            let value = e.target.value.replace(/\D/g, '').substring(0, 11);
+            if (value.length > 6) value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+            else if (value.length > 2) value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
+            else if (value.length > 0) value = value.replace(/^(\d*)/, '($1');
             e.target.value = value;
         });
+
+        // --- NOVO: Função para calcular e atualizar o preço ---
+        function updateTotalPrice() {
+            let total = 0;
+            const selectedOption = serviceInput.options[serviceInput.selectedIndex];
+            
+            if (selectedOption && selectedOption.value) {
+                // Extrai o número do texto da opção (ex: "Lavagem Expressa - R$ 40,00")
+                const priceMatch = selectedOption.text.match(/R\$\s*([\d,]+)/);
+                if (priceMatch && priceMatch[1]) {
+                    // Converte o preço para um número (trocando vírgula por ponto)
+                    total += parseFloat(priceMatch[1].replace(',', '.'));
+                }
+            }
+
+            // Adiciona o valor do serviço Leva e Traz
+            if (pickupInput.checked) {
+                total += 5;
+            }
+
+            // Formata e exibe o total
+            totalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+        
+        // --- NOVO: Adiciona os gatilhos para atualizar o preço ---
+        serviceInput.addEventListener('change', updateTotalPrice);
+        pickupInput.addEventListener('change', updateTotalPrice);
+
 
         // Função para validar o formulário
         function validateForm() {
@@ -150,19 +176,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
-            
-            // --- ALTERADO: Validação do telefone para 11 dígitos ---
             const phoneDigits = phoneInput.value.replace(/\D/g, '');
             if (phoneDigits.length !== 11) setError('phone', 'O celular deve ter 11 dígitos (DDD + número).');
-            
             if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
-
             if (dateInput.value === '') {
                 setError('date', 'Por favor, escolha uma data.');
             } else {
                 const selectedDate = new Date(dateInput.value + 'T00:00:00');
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
+                const today = new Date(); today.setHours(0, 0, 0, 0);
                 if (selectedDate < today) setError('date', 'Não é possível agendar em uma data passada.');
             }
             return isValid;
@@ -178,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const service = serviceInput.options[serviceInput.selectedIndex].text;
                 const date = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('pt-BR');
                 const pickup = pickupInput.checked ? 'Sim' : 'Não';
+                const total = totalPriceEl.textContent; // Pega o total já formatado
                 
                 confirmationDetails.innerHTML = `
                     <p><strong>Nome:</strong> ${name}</p>
@@ -185,9 +207,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p><strong>Serviço:</strong> ${service}</p>
                     <p><strong>Data:</strong> ${date}</p>
                     <p><strong>Leva e Traz:</strong> ${pickup}</p>
+                    <p><strong>Total Estimado:</strong> ${total}</p>
                 `;
                 
-                const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${name}\n*Telefone:* ${phone}\n*Serviço:* ${service}\n*Data:* ${date}\n*Serviço Leva e Traz:* ${pickup}`;
+                const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${name}\n*Telefone:* ${phone}\n*Serviço:* ${service}\n*Data:* ${date}\n*Leva e Traz:* ${pickup}\n*Total Estimado:* ${total}`;
                 const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
                 whatsappButton.onclick = () => window.open(whatsappUrl, '_blank');
 
