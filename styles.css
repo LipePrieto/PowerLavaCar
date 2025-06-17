@@ -644,6 +644,7 @@ body {
 .route-button {
     display: flex; 
     align-items: center;
+    justify-content: center; /* Adicione esta linha */
     gap: 8px;
     background: var(--gradient-purple);
     color: var(--text-white);
