@@ -786,13 +786,15 @@ body {
 }
 
 .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
-    content: '\2713';
+    content: '\f00c'; /* Font Awesome check icon unicode */
+    font-family: "Font Awesome 6 Free"; /* Make sure Font Awesome font is used */
+    font-weight: 900; /* Use solid icon weight */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-weight: bold;
+    font-size: 0.9rem; /* Adjust size to fit */
 }
 
 .total-price-container {
@@ -1751,6 +1753,9 @@ body.light-mode {
     }
     .privacy-card h3 {
         font-size: 1.3rem;
+    }
+    .privacy-card p {
+        font-size: 1rem;
     }
     .privacy-page .page-footer {
         margin-top: 60px;
