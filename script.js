@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.getElementById('navbar');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Navigation functionality (SEU CÓDIGO ORIGINAL)
+    // Navegação mobile
     hamburger.addEventListener('click', function() {
         navMenu.classList.toggle('active');
-        hamburger.classList.toggle('active'); // Animate hamburger icon
+        hamburger.classList.toggle('active');
     });
 
     navLinks.forEach(link => {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar scroll effect (SEU CÓDIGO ORIGINAL)
+    // Efeito de scroll na navbar
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- ADICIONADO: INICIALIZAÇÃO DA BIBLIOTECA DE ANIMAÇÕES AOS ---
-    // Isto substitui seu observer customizado e usa a biblioteca que você já tem no HTML
+    // Biblioteca AOS
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 800,
@@ -35,35 +34,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- ADICIONADO: FUNÇÃO PARA MOSTRAR STATUS DA LOJA ---
-    const statusEl = document.getElementById('status-loja');
-    if (statusEl) {
+    // --- STATUS DA LOJA: ATUALIZAÇÃO AUTOMÁTICA ---
+    function atualizarStatusLoja() {
+        const statusEl = document.getElementById('status-loja');
+        if (!statusEl) return;
+
         const agora = new Date();
         const diaSemana = agora.getDay();
         const hora = agora.getHours();
         let aberto = false;
-        if (diaSemana >= 1 && diaSemana <= 5 && hora >= 8 && hora < 18) { // Seg-Sex
+
+        if (diaSemana >= 1 && diaSemana <= 5 && hora >= 8 && hora < 18) {
             aberto = true;
-        } else if (diaSemana === 6 && hora >= 8 && hora < 12) { // Sábado
+        } else if (diaSemana === 6 && hora >= 8 && hora < 12) {
             aberto = true;
         }
+
         statusEl.textContent = aberto ? 'Aberto Agora' : 'Fechado Agora';
+        statusEl.classList.remove('aberto', 'fechado');
         statusEl.classList.add(aberto ? 'aberto' : 'fechado');
     }
 
-    // Form handling (SEU CÓDIGO ORIGINAL COM ADIÇÕES)
+    atualizarStatusLoja();
+    setInterval(atualizarStatusLoja, 60000); // Atualiza a cada 1 minuto
+
+    // --- FORMULÁRIO ---
     const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) { // Adicionada verificação para evitar erros em outras páginas
+    if (bookingForm) {
         const confirmationDiv = document.getElementById('confirmation');
         const confirmationDetails = document.getElementById('confirmation-details');
         const whatsappButton = document.getElementById('whatsapp-button');
         const editButton = document.getElementById('edit-button');
         const phoneInput = document.getElementById('phone');
         const dateInput = document.getElementById('date');
-        
+
         let lastFormData = {};
 
-        // Phone number formatting (SEU CÓDIGO ORIGINAL)
+        // Formatar telefone
         phoneInput.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             value = value.substring(0, 11);
@@ -74,12 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = formattedValue;
         });
 
-        // Set minimum date to today (SEU CÓDIGO ORIGINAL)
+        // Impedir seleção de domingo
         const today = new Date();
         today.setDate(today.getDate());
         dateInput.min = today.toISOString().split('T')[0];
-        
-        // --- ADICIONADO: VALIDAÇÃO PARA NÃO PERMITIR DOMINGOS ---
+
         dateInput.addEventListener('input', function() {
             const dataSelecionada = new Date(this.value + "T12:00:00Z");
             if (dataSelecionada.getUTCDay() === 0) {
@@ -92,26 +98,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Form submission (SEU CÓDIGO ORIGINAL)
+        // Submissão do formulário (com lógica própria)
         bookingForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            // ... sua lógica de validação e confirmação continua aqui, como estava antes ...
-            // Apenas certifique-se de que a validação de domingo também seja verificada aqui se necessário.
-            const formData = new FormData(this);
-            // ... etc ...
-            // A sua lógica original completa de validação, envio para o WhatsApp e edição vai aqui.
+            // Aqui você continua sua lógica de confirmação, validação e WhatsApp
         });
 
-        // Form field animations (SEU CÓDIGO ORIGINAL)
+        // Efeito de foco nos campos
         const formInputs = document.querySelectorAll('.form-group input, .form-group select');
         formInputs.forEach(input => {
             if (input.value) { input.closest('.form-group').classList.add('focused'); }
-            input.addEventListener('focus', function() { this.closest('.form-group').classList.add('focused'); });
-            input.addEventListener('blur', function() { if (!this.value) { this.closest('.form-group').classList.remove('focused'); } });
+            input.addEventListener('focus', function() {
+                this.closest('.form-group').classList.add('focused');
+            });
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.closest('.form-group').classList.remove('focused');
+                }
+            });
         });
     }
 
-    // --- ADICIONADO: CÓDIGO CORRIGIDO PARA O CONTADOR DE ESTATÍSTICAS ---
+    // --- ANIMAÇÃO DE CONTADOR ---
     const heroSection = document.querySelector('.hero');
     if (heroSection) {
         const counters = document.querySelectorAll('.stat-number');
@@ -122,10 +130,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     counter.innerText = '0';
                     const updateCounter = () => {
                         const current = +counter.innerText;
-                        const increment = target / 100; // Controla a velocidade
+                        const increment = target / 100;
                         if (current < target) {
                             counter.innerText = `${Math.ceil(current + increment)}`;
-                            setTimeout(updateCounter, 20); // Controla a fluidez
+                            setTimeout(updateCounter, 20);
                         } else {
                             counter.innerText = target + '+';
                         }
@@ -144,11 +152,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Efeitos nos cards de serviço (SEU CÓDIGO ORIGINAL)
+    // --- EFEITO DE RIPPLE NOS CARDS DE SERVIÇO ---
     const serviceCards = document.querySelectorAll('.service-card');
-    if (serviceCards.length > 0) { // Adicionada verificação
+    if (serviceCards.length > 0) {
         serviceCards.forEach(card => {
-            // Ripple effect
             card.addEventListener('click', function(e) {
                 const ripple = document.createElement('span');
                 ripple.classList.add('ripple');
