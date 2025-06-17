@@ -39,8 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.toggle('active');
         });
         document.querySelectorAll('.nav-link').forEach(link => {
+            // Garante que o menu feche ao clicar em um link, exceto no botão de CTA
             if (!link.classList.contains('cta-button-small')) {
-                 link.addEventListener('click', () => {
+                link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
                     navMenu.classList.remove('active');
                 });
@@ -68,15 +69,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const agora = new Date();
             const diaSemana = agora.getDay();
             const horaAtual = agora.getHours() + (agora.getMinutes() / 60);
+            // Aberto de Seg a Sex (8h-18h) e Sábado (8h-12h)
             let aberto = (diaSemana >= 1 && diaSemana <= 5 && horaAtual >= 8 && horaAtual < 18) || (diaSemana === 6 && horaAtual >= 8 && horaAtual < 12);
             statusBadge.textContent = aberto ? 'Aberto' : 'Fechado';
             statusBadge.classList.toggle('aberto', aberto);
             statusBadge.classList.toggle('fechado', !aberto);
         }
-        verificarStatusLoja();
-        setInterval(verificarStatusLoja, 60000);
+        verificarStatusLoja(); // Verifica o status na carga da página
+        setInterval(verificarStatusLoja, 60000); // Atualiza a cada minuto
     }
-    
+
     // Animação de Contagem dos Números
     const heroStats = document.querySelector('.hero-stats');
     if (heroStats) {
@@ -86,9 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const target = +counter.getAttribute('data-target');
                     let count = 0;
                     const updateCount = () => {
-                        const inc = target / 100;
+                        const inc = target / 100; // Incrementa em 100 passos
                         if (count < target) {
-                            count = Math.min(count + inc, target);
+                            count = Math.min(count + inc, target); // Garante que não ultrapasse o target
                             counter.innerText = Math.ceil(count);
                             setTimeout(updateCount, 15);
                         } else {
@@ -97,17 +99,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     };
                     updateCount();
                 });
-                observer.unobserve(heroStats);
+                observer.unobserve(heroStats); // Para de observar após a animação
             }
-        }, { threshold: 0.5 });
+        }, { threshold: 0.5 }); // Inicia quando 50% do elemento está visível
         observer.observe(heroStats);
     }
-    
+
     // Inicialização da Biblioteca de Animações (AOS)
-    if(typeof AOS !== 'undefined') {
+    if (typeof AOS !== 'undefined') {
         AOS.init({ duration: 1000, once: true, offset: 50 });
     }
-    
+
     // Lógica da Calculadora de Pacotes
     const packageOptions = document.querySelectorAll('.options-list input[type="checkbox"]');
     const customTotalPriceEl = document.getElementById('custom-total-price');
@@ -121,6 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
             customTotalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
         packageOptions.forEach(option => option.addEventListener('change', calculateCustomPackage));
+
+        // Inicializa o cálculo
+        calculateCustomPackage();
 
         agendarPacoteBtn.addEventListener('click', () => {
             let servicosSelecionados = [];
@@ -139,7 +144,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Lógica do Formulário de Agendamento
+    // ===================================================================
+    // 3. LÓGICA DA ANIMAÇÃO SVG COM SCROLL (Se aplica a INDEX.HTML ou outra página com SVG)
+    // ===================================================================
+    if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        const carPath = document.getElementById("car-path");
+        if (carPath) {
+            const pathLength = carPath.getTotalLength();
+            gsap.set(carPath, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
+            gsap.to(carPath, {
+                strokeDashoffset: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".svg-drawing-section", // Certifique-se que esta seção exista no HTML
+                    start: "top center",
+                    end: "bottom center",
+                    scrub: 1
+                }
+            });
+        }
+    }
+
+    // ===================================================================
+    // 4. LÓGICA DO FORMULÁRIO DE AGENDAMENTO
+    // ===================================================================
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
         const confirmationDiv = document.getElementById('confirmation');
@@ -152,17 +181,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const dateInput = document.getElementById('date');
         const pickupInput = document.getElementById('pickup');
         const totalPriceEl = document.getElementById('total-price');
+
+        // Define a data mínima para hoje no campo de data
         const hoje = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', hoje);
 
-        phoneInput.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '').substring(0, 11);
+        // Formatação do telefone
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '').substring(0, 11); // Remove não-dígitos e limita a 11
             if (value.length > 6) value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
             else if (value.length > 2) value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
             else if (value.length > 0) value = value.replace(/^(\d*)/, '($1');
             e.target.value = value;
         });
 
+        // Atualiza o preço total do agendamento
         function updateTotalPrice() {
             let total = 0;
             const selectedOption = serviceInput.options[serviceInput.selectedIndex];
@@ -170,39 +203,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 const priceMatch = selectedOption.text.match(/R\$\s*([\d,]+)/);
                 if (priceMatch && priceMatch[1]) total += parseFloat(priceMatch[1].replace(',', '.'));
             }
-            if (pickupInput.checked) total += 5;
+            if (pickupInput.checked) total += 5; // Adiciona R$5 se "Leva e Traz" estiver marcado
             totalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
         serviceInput.addEventListener('change', updateTotalPrice);
         pickupInput.addEventListener('change', updateTotalPrice);
 
+        // Validação do formulário
         function validateForm() {
             let isValid = true;
+            // Remove mensagens de erro anteriores
             document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
+
+            // Helper para definir erros
             function setError(inputId, message) {
                 const input = document.getElementById(inputId);
                 input.parentElement.classList.add('error');
                 document.getElementById(`${inputId}-error`).textContent = message;
                 isValid = false;
             }
+
             if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
-            if (phoneInput.value.replace(/\D/g, '').length !== 11) setError('phone', 'O celular deve ter 11 dígitos.');
+            if (phoneInput.value.replace(/\D/g, '').length !== 11) setError('phone', 'O celular deve ter 11 dígitos (DDD + 9 dígitos).');
             if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
+
             if (dateInput.value === '') {
                 setError('date', 'Por favor, escolha uma data.');
             } else {
-                const selectedDate = new Date(dateInput.value + 'T00:00:00');
+                const selectedDate = new Date(dateInput.value + 'T00:00:00'); // Adiciona T00:00:00 para evitar problemas de fuso horário
                 const today = new Date();
-                today.setHours(0, 0, 0, 0);
+                today.setHours(0, 0, 0, 0); // Zera as horas para comparar apenas a data
+
                 if (selectedDate.getUTCDay() === 0) setError('date', 'Não agendamos aos domingos.');
                 else if (selectedDate < today) setError('date', 'Não é possível agendar em data passada.');
             }
             return isValid;
         }
 
+        // Lidar com o envio do formulário
         bookingForm.addEventListener('submit', function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Impede o envio padrão do formulário
             if (validateForm()) {
+                // Coleta os dados do formulário
                 const formData = {
                     name: nameInput.value,
                     phone: phoneInput.value,
@@ -211,25 +253,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     pickup: pickupInput.checked ? 'Sim' : 'Não',
                     total: totalPriceEl.textContent
                 };
-                
-                confirmationDetails.innerHTML = `<p><strong>Nome:</strong> ${formData.name}</p><p><strong>Telefone:</strong> ${formData.phone}</p><p><strong>Serviço:</strong> ${formData.service}</p><p><strong>Data:</strong> ${formData.date}</p><p><strong>Leva e Traz:</strong> ${formData.pickup}</p><p><strong>Total Estimado:</strong> ${formData.total}</p>`;
+
+                // Exibe os detalhes na seção de confirmação
+                confirmationDetails.innerHTML = `<p><strong>Nome:</strong> ${formData.name}</p>
+                                                 <p><strong>Telefone:</strong> ${formData.phone}</p>
+                                                 <p><strong>Serviço:</strong> ${formData.service}</p>
+                                                 <p><strong>Data:</strong> ${formData.date}</p>
+                                                 <p><strong>Leva e Traz:</strong> ${formData.pickup}</p>
+                                                 <p><strong>Total Estimado:</strong> ${formData.total}</p>`;
+
+                // Prepara a mensagem do WhatsApp
                 const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${formData.name}\n*Telefone:* ${formData.phone}\n*Serviço:* ${formData.service}\n*Data:* ${formData.date}\n*Leva e Traz:* ${formData.pickup}\n*Total Estimado:* ${formData.total}`;
                 whatsappButton.onclick = () => window.open(`https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
 
+                // Esconde o formulário e mostra a confirmação
                 bookingForm.style.display = 'none';
                 confirmationDiv.style.display = 'block';
+                // Rola para a seção de confirmação para melhor UX
                 window.scrollTo({ top: confirmationDiv.offsetTop - 100, behavior: 'smooth' });
             }
         });
-        
+
+        // Habilita a edição (volta para o formulário)
         editButton.addEventListener('click', function() {
             confirmationDiv.style.display = 'none';
             bookingForm.style.display = 'block';
         });
+
+        // Inicializa o cálculo do preço total ao carregar
+        updateTotalPrice();
     }
 
     // ===================================================================
-    // 4. ANIMAÇÕES DA PÁGINA SOBRE NÓS
+    // 5. ANIMAÇÕES DA PÁGINA SOBRE NÓS
     // ===================================================================
     if (typeof gsap !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
@@ -238,26 +294,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (document.querySelector('.timeline-section')) {
             const milestones = gsap.utils.toArray('.milestone');
             milestones.forEach(milestone => {
-                gsap.to(milestone, {
+                gsap.fromTo(milestone, {
+                    opacity: 0,
+                    x: milestone.classList.contains('milestone-left') ? -100 : 100 // Animação da esquerda/direita
+                }, {
                     opacity: 1,
                     x: 0,
                     ease: 'power2.out',
                     scrollTrigger: {
                         trigger: milestone,
-                        start: 'top 85%',
-                        end: 'bottom 75%',
-                        toggleActions: 'play none none reverse'
+                        start: 'top 85%', // Começa a animar quando 85% do elemento está visível
+                        end: 'bottom 75%', // Termina quando 75% do elemento está visível
+                        toggleActions: 'play none none reverse' // Play na entrada, reverte na saída
                     }
                 });
             });
 
+            // Animação da linha de preenchimento da linha do tempo
             gsap.to(".timeline-road-fill", {
                 scaleY: 1,
                 scrollTrigger: {
                     trigger: ".timeline-section",
                     start: "top 30%",
                     end: "bottom 80%",
-                    scrub: 1.5,
+                    scrub: 1.5, // Anima suavemente com o scroll
                 }
             });
         }
