@@ -640,11 +640,10 @@ body {
     margin: 0;
 }
 
-/* ===== INÍCIO DA MODIFICAÇÃO FINAL ===== */
 .route-button {
-    display: flex; 
-    align-items: center;
-    justify-content: center; /* Adicionado para centralizar o conteúdo */
+    display: flex;             /* Ativa o modo flex para alinhar os itens internos */
+    align-items: center;       /* Centraliza verticalmente (o ícone e o texto) */
+    justify-content: center;   /* Centraliza horizontalmente (o ícone e o texto) */
     gap: 8px;
     background: var(--gradient-purple);
     color: var(--text-white);
@@ -657,7 +656,6 @@ body {
     box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
     width: fit-content;
 }
-/* ===== FIM DA MODIFICAÇÃO FINAL ===== */
 
 .route-button:hover {
     transform: translateY(-2px);
