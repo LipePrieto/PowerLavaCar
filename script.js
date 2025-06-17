@@ -1,58 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 1. Funcionalidade do Menu Hamburger (Mobile)
+    // ===================================================================
+    // 1. FUNCIONALIDADES GERAIS DA PÁGINA
+    // ===================================================================
+
+    // Menu Hamburger (Mobile)
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
-
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-
-    // Fechar o menu ao clicar em um link
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
-    });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    }
 
-    // 2. Efeito da Barra de Navegação ao Rolar
+    // Efeito da Barra de Navegação ao Rolar
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
 
-    // 3. Status de Funcionamento (Aberto/Fechado)
+    // Status de Funcionamento (Aberto/Fechado)
+    const statusBadge = document.getElementById('status-loja');
     function verificarStatusLoja() {
-        const statusBadge = document.getElementById('status-loja');
         if (!statusBadge) return;
-
         const agora = new Date();
-        const diaSemana = agora.getDay(); // 0 (Domingo) a 6 (Sábado)
+        const diaSemana = agora.getDay(); // 0 (Dom) a 6 (Sáb)
         const hora = agora.getHours();
         const minuto = agora.getMinutes();
         const horaAtual = hora + (minuto / 60);
 
         let aberto = false;
-
-        // Seg a Sex (1 a 5): 08:00 - 18:00
-        if (diaSemana >= 1 && diaSemana <= 5) {
-            if (horaAtual >= 8 && horaAtual < 18) {
-                aberto = true;
-            }
+        if (diaSemana >= 1 && diaSemana <= 5) { // Seg a Sex
+            if (horaAtual >= 8 && horaAtual < 18) aberto = true;
+        } else if (diaSemana === 6) { // Sábado
+            if (horaAtual >= 8 && horaAtual < 12) aberto = true;
         }
-        // Sábado (6): 08:00 - 12:00
-        else if (diaSemana === 6) {
-            if (horaAtual >= 8 && horaAtual < 12) {
-                aberto = true;
-            }
-        }
-        // Domingo (0): Fechado
 
         if (aberto) {
             statusBadge.textContent = 'Aberto';
@@ -64,22 +59,22 @@ document.addEventListener('DOMContentLoaded', function() {
             statusBadge.classList.remove('aberto');
         }
     }
+    verificarStatusLoja();
+    setInterval(verificarStatusLoja, 60000);
 
-    // 4. Animação de Contagem dos Números
+    // Animação de Contagem dos Números
+    const heroStats = document.querySelector('.hero-stats');
     function animateCounters() {
         const counters = document.querySelectorAll('.stat-number');
-        const speed = 200; // Velocidade da animação
-
         counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+            const inc = target / 200; // Animation speed
             const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-
-                const inc = target / speed;
-
                 if (count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(updateCount, 15);
+                    count += inc;
+                    counter.innerText = Math.ceil(count);
+                    setTimeout(updateCount, 1);
                 } else {
                     counter.innerText = target;
                 }
@@ -87,34 +82,107 @@ document.addEventListener('DOMContentLoaded', function() {
             updateCount();
         });
     }
-
-    // Usar Intersection Observer para iniciar a contagem quando visível
-    const heroStats = document.querySelector('.hero-stats');
-    let hasAnimated = false;
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !hasAnimated) {
-                animateCounters();
-                hasAnimated = true; // Garante que a animação ocorra apenas uma vez
-                observer.unobserve(entry.target); // Para de observar após animar
-            }
-        });
-    }, { threshold: 0.5 }); // Inicia quando 50% da seção estiver visível
-
     if (heroStats) {
+        let hasAnimated = false;
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && !hasAnimated) {
+                animateCounters();
+                hasAnimated = true;
+                observer.unobserve(heroStats);
+            }
+        }, { threshold: 0.5 });
         observer.observe(heroStats);
     }
     
-    // 5. Inicialização da Biblioteca de Animações (AOS)
+    // Inicialização da Biblioteca de Animações (AOS)
     AOS.init({
-        duration: 1000, // Duração da animação
-        once: true,     // Animar apenas uma vez
-        offset: 50,     // Começar a animação 50px antes do elemento aparecer
+        duration: 1000,
+        once: true,
+        offset: 50,
     });
 
-    // Chama a função de status da loja assim que a página carrega
-    verificarStatusLoja();
-    // E atualiza a cada minuto para o status mudar em tempo real
-    setInterval(verificarStatusLoja, 60000); 
+    // ===================================================================
+    // 2. LÓGICA DO FORMULÁRIO DE AGENDAMENTO
+    // ===================================================================
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+        const confirmationDiv = document.getElementById('confirmation');
+        const confirmationDetails = document.getElementById('confirmation-details');
+        const whatsappButton = document.getElementById('whatsapp-button');
+        const editButton = document.getElementById('edit-button');
+
+        // Inputs do formulário
+        const nameInput = document.getElementById('name');
+        const phoneInput = document.getElementById('phone');
+        const serviceInput = document.getElementById('service');
+        const dateInput = document.getElementById('date');
+        const pickupInput = document.getElementById('pickup');
+
+        // Função para validar o formulário
+        function validateForm() {
+            let isValid = true;
+            // Limpa erros anteriores
+            document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
+
+            function setError(inputId, message) {
+                const input = document.getElementById(inputId);
+                const errorDiv = document.getElementById(`${inputId}-error`);
+                input.parentElement.classList.add('error');
+                errorDiv.textContent = message;
+                isValid = false;
+            }
+
+            if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
+            if (phoneInput.value.trim().length < 10) setError('phone', 'Por favor, insira um telefone válido.');
+            if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
+            if (dateInput.value === '') {
+                setError('date', 'Por favor, escolha uma data.');
+            } else {
+                const today = new Date();
+                const selectedDate = new Date(dateInput.value + 'T00:00:00');
+                today.setHours(0, 0, 0, 0); // Zera a hora para comparar apenas a data
+                if (selectedDate < today) setError('date', 'Não é possível agendar em uma data passada.');
+            }
+            return isValid;
+        }
+
+        // Evento de submit do formulário
+        bookingForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            if (validateForm()) {
+                // Coleta os dados do formulário
+                const name = nameInput.value;
+                const phone = phoneInput.value;
+                const service = serviceInput.options[serviceInput.selectedIndex].text;
+                const date = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('pt-BR');
+                const pickup = pickupInput.checked ? 'Sim' : 'Não';
+                
+                // Exibe os detalhes da confirmação
+                confirmationDetails.innerHTML = `
+                    <p><strong>Nome:</strong> ${name}</p>
+                    <p><strong>Telefone:</strong> ${phone}</p>
+                    <p><strong>Serviço:</strong> ${service}</p>
+                    <p><strong>Data:</strong> ${date}</p>
+                    <p><strong>Leva e Traz:</strong> ${pickup}</p>
+                `;
+                
+                // Prepara a mensagem do WhatsApp
+                const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${name}\n*Telefone:* ${phone}\n*Serviço:* ${service}\n*Data:* ${date}\n*Serviço Leva e Traz:* ${pickup}`;
+                const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
+                whatsappButton.onclick = () => window.open(whatsappUrl, '_blank');
+
+                // Esconde o formulário e mostra a confirmação
+                bookingForm.style.display = 'none';
+                confirmationDiv.style.display = 'block';
+            }
+        });
+        
+        // Evento do botão "Editar Agendamento"
+        editButton.addEventListener('click', function() {
+            confirmationDiv.style.display = 'none';
+            bookingForm.style.display = 'block';
+        });
+    }
 
 });
