@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.toggle('active');
         });
         document.querySelectorAll('.nav-link').forEach(link => {
-            // Fecha o menu se não for o botão principal de agendamento
             if (!link.classList.contains('cta-button-small')) {
                  link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
@@ -216,7 +215,6 @@ document.addEventListener('DOMContentLoaded', function() {
         function validateForm() {
             let isValid = true;
             document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
-            
             function setError(inputId, message) {
                 const input = document.getElementById(inputId);
                 const errorDiv = document.getElementById(`${inputId}-error`);
@@ -224,19 +222,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 errorDiv.textContent = message;
                 isValid = false;
             }
-
-            function clearError(inputId) {
-                const input = document.getElementById(inputId);
-                const errorDiv = document.getElementById(`${inputId}-error`);
-                input.parentElement.classList.remove('error');
-                errorDiv.textContent = '';
-            }
             
-            // Validações
-            if (nameInput.value.trim() === '') { setError('name', 'Por favor, insira seu nome.'); } else { clearError('name'); }
-            if (phoneInput.value.replace(/\D/g, '').length !== 11) { setError('phone', 'O celular deve ter 11 dígitos.'); } else { clearError('phone'); }
-            if (serviceInput.value === '') { setError('service', 'Por favor, selecione um serviço.'); } else { clearError('service'); }
-            
+            if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
+            if (phoneInput.value.replace(/\D/g, '').length !== 11) setError('phone', 'O celular deve ter 11 dígitos.');
+            if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
             if (dateInput.value === '') {
                 setError('date', 'Por favor, escolha uma data.');
             } else {
@@ -249,8 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     setError('date', 'Não agendamos aos domingos.');
                 } else if (selectedDate < today) {
                     setError('date', 'Não é possível agendar em data passada.');
-                } else {
-                    clearError('date');
                 }
             }
             return isValid;
