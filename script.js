@@ -170,81 +170,84 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. LÓGICA DO FORMULÁRIO DE AGENDAMENTO
     // ===================================================================
     const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) {
-        const confirmationDiv = document.getElementById('confirmation');
-        const confirmationDetails = document.getElementById('confirmation-details');
-        const whatsappButton = document.getElementById('whatsapp-button');
-        const editButton = document.getElementById('edit-button');
-        const nameInput = document.getElementById('name');
-        const phoneInput = document.getElementById('phone');
-        const serviceInput = document.getElementById('service');
-        const dateInput = document.getElementById('date');
-        const pickupInput = document.getElementById('pickup');
-        const totalPriceEl = document.getElementById('total-price');
+    // Nova div para a mensagem temporária de redirecionamento
+    const bookingDirectWhatsappInfo = document.getElementById('booking-direct-whatsapp-info');
+    
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const serviceInput = document.getElementById('service');
+    const dateInput = document.getElementById('date');
+    const pickupInput = document.getElementById('pickup');
+    const totalPriceEl = document.getElementById('total-price');
 
-        // Define a data mínima para hoje no campo de data
-        const hoje = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', hoje);
+    // Define a data mínima para hoje no campo de data
+    const hoje = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', hoje);
 
-        // Formatação do telefone
-        phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '').substring(0, 11); // Remove não-dígitos e limita a 11
-            if (value.length > 6) value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
-            else if (value.length > 2) value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
-            else if (value.length > 0) value = value.replace(/^(\d*)/, '($1');
-            e.target.value = value;
-        });
+    // Formatação do telefone
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '').substring(0, 11); // Remove não-dígitos e limita a 11
+        if (value.length > 6) value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+        else if (value.length > 2) value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
+        else if (value.length > 0) value = value.replace(/^(\d*)/, '($1');
+        e.target.value = value;
+    });
 
-        // Atualiza o preço total do agendamento
-        function updateTotalPrice() {
-            let total = 0;
-            const selectedOption = serviceInput.options[serviceInput.selectedIndex];
-            if (selectedOption && selectedOption.value) {
-                const priceMatch = selectedOption.text.match(/R\$\s*([\d,]+)/);
-                if (priceMatch && priceMatch[1]) total += parseFloat(priceMatch[1].replace(',', '.'));
+    // Atualiza o preço total do agendamento
+    function updateTotalPrice() {
+        let total = 0;
+        const selectedOption = serviceInput.options[serviceInput.selectedIndex];
+        if (selectedOption && selectedOption.value) {
+            const priceMatch = selectedOption.text.match(/R\$\s*([\d,]+)/);
+            // Handling "A partir de" for Higienização Interna, default to 200 if not specified
+            if (selectedOption.value === "Higienização Interna" && !priceMatch) {
+                total += 200; // Default price if "A partir de" is present without a specific number
+            } else if (priceMatch && priceMatch[1]) {
+                total += parseFloat(priceMatch[1].replace(',', '.'));
             }
-            if (pickupInput.checked) total += 5; // Adiciona R$5 se "Leva e Traz" estiver marcado
-            totalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
-        serviceInput.addEventListener('change', updateTotalPrice);
-        pickupInput.addEventListener('change', updateTotalPrice);
+        if (pickupInput.checked) total += 5; // Adiciona R$5 se "Leva e Traz" estiver marcado
+        totalPriceEl.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+    serviceInput.addEventListener('change', updateTotalPrice);
+    pickupInput.addEventListener('change', updateTotalPrice);
 
-        // Validação do formulário
-        function validateForm() {
-            let isValid = true;
-            // Remove mensagens de erro anteriores
-            document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
+    // Validação do formulário
+    function validateForm() {
+        let isValid = true;
+        // Remove mensagens de erro anteriores
+        document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
 
-            // Helper para definir erros
-            function setError(inputId, message) {
-                const input = document.getElementById(inputId);
-                input.parentElement.classList.add('error');
-                document.getElementById(`${inputId}-error`).textContent = message;
-                isValid = false;
-            }
-
-            if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
-            if (phoneInput.value.replace(/\D/g, '').length !== 11) setError('phone', 'O celular deve ter 11 dígitos (DDD + 9 dígitos).');
-            if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
-
-            if (dateInput.value === '') {
-                setError('date', 'Por favor, escolha uma data.');
-            } else {
-                const selectedDate = new Date(dateInput.value + 'T00:00:00'); // Adiciona T00:00:00 para evitar problemas de fuso horário
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Zera as horas para comparar apenas a data
-
-                if (selectedDate.getUTCDay() === 0) setError('date', 'Não agendamos aos domingos.');
-                else if (selectedDate < today) setError('date', 'Não é possível agendar em data passada.');
-            }
-            return isValid;
+        // Helper para definir erros
+        function setError(inputId, message) {
+            const input = document.getElementById(inputId);
+            input.parentElement.classList.add('error');
+            document.getElementById(`${inputId}-error`).textContent = message;
+            isValid = false;
         }
 
-        // Lidar com o envio do formulário
+        if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
+        if (phoneInput.value.replace(/\D/g, '').length !== 11) setError('phone', 'O celular deve ter 11 dígitos (DDD + 9 dígitos).');
+        if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
+
+        if (dateInput.value === '') {
+            setError('date', 'Por favor, escolha uma data.');
+        } else {
+            const selectedDate = new Date(dateInput.value + 'T00:00:00'); // Adiciona T00:00:00 para evitar problemas de fuso horário
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Zera as horas para comparar apenas a data
+
+            if (selectedDate.getUTCDay() === 0) setError('date', 'Não agendamos aos domingos.');
+            else if (selectedDate < today) setError('date', 'Não é possível agendar em data passada.');
+        }
+        return isValid;
+    }
+
+    // Lidar com o envio do formulário - AGORA DIRETAMENTE PARA WHATSAPP
+    if (bookingForm) { // Garante que bookingForm exista antes de adicionar o listener
         bookingForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Impede o envio padrão do formulário
             if (validateForm()) {
-                // Coleta os dados do formulário
                 const formData = {
                     name: nameInput.value,
                     phone: phoneInput.value,
@@ -254,30 +257,38 @@ document.addEventListener('DOMContentLoaded', function() {
                     total: totalPriceEl.textContent
                 };
 
-                // Exibe os detalhes na seção de confirmação
-                confirmationDetails.innerHTML = `<p><strong>Nome:</strong> ${formData.name}</p>
-                                                 <p><strong>Telefone:</strong> ${formData.phone}</p>
-                                                 <p><strong>Serviço:</strong> ${formData.service}</p>
-                                                 <p><strong>Data:</strong> ${formData.date}</p>
-                                                 <p><strong>Leva e Traz:</strong> ${formData.pickup}</p>
-                                                 <p><strong>Total Estimado:</strong> ${formData.total}</p>`;
+                const whatsappMessage = `Olá! Gostaria de agendar meu serviço:\n\n*Nome:* ${formData.name}\n*Telefone:* ${formData.phone}\n*Serviço:* ${formData.service}\n*Data:* ${formData.date}\n*Leva e Traz:* ${formData.pickup}\n*Total Estimado:* ${formData.total}\n\nPor favor, confirme meu agendamento!`;
+                const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
 
-                // Prepara a mensagem do WhatsApp
-                const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${formData.name}\n*Telefone:* ${formData.phone}\n*Serviço:* ${formData.service}\n*Data:* ${formData.date}\n*Leva e Traz:* ${formData.pickup}\n*Total Estimado:* ${formData.total}`;
-                whatsappButton.onclick = () => window.open(`https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+                // Define o link manual de fallback
+                const manualWhatsappLink = document.getElementById('manual-whatsapp-link');
+                if (manualWhatsappLink) {
+                    manualWhatsappLink.href = whatsappUrl;
+                }
 
-                // Esconde o formulário e mostra a confirmação
-                bookingForm.style.display = 'none';
-                confirmationDiv.style.display = 'block';
-                // Rola para a seção de confirmação para melhor UX
-                window.scrollTo({ top: confirmationDiv.offsetTop - 100, behavior: 'smooth' });
+                // Mostra a mensagem temporária de sucesso
+                if (bookingDirectWhatsappInfo) {
+                    bookingForm.style.display = 'none';
+                    bookingDirectWhatsappInfo.style.display = 'block';
+                    window.scrollTo({ top: bookingDirectWhatsappInfo.offsetTop - 100, behavior: 'smooth' });
+
+                    // Abre o WhatsApp após um pequeno atraso para o usuário ver a mensagem
+                    setTimeout(() => {
+                        window.open(whatsappUrl, '_blank');
+                    }, 1000); // 1 segundo de atraso
+
+                    // Reseta o formulário e esconde a mensagem após alguns segundos
+                    setTimeout(() => {
+                        bookingForm.reset(); // Limpa os campos do formulário
+                        bookingDirectWhatsappInfo.style.display = 'none';
+                        bookingForm.style.display = 'block';
+                    }, 5000); // Esconde a mensagem após 5 segundos
+                } else {
+                    // Fallback: abre diretamente se a div de informação não for encontrada
+                    window.open(whatsappUrl, '_blank');
+                    bookingForm.reset();
+                }
             }
-        });
-
-        // Habilita a edição (volta para o formulário)
-        editButton.addEventListener('click', function() {
-            confirmationDiv.style.display = 'none';
-            bookingForm.style.display = 'block';
         });
 
         // Inicializa o cálculo do preço total ao carregar
