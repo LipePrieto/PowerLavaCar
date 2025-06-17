@@ -118,10 +118,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const dateInput = document.getElementById('date');
         const pickupInput = document.getElementById('pickup');
 
+        // --- NOVO: Bloquear datas passadas no calendário ---
+        const hoje = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', hoje);
+
+        // --- NOVO: Máscara para o campo de telefone ---
+        phoneInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+            value = value.substring(0, 11); // Limita a 11 dígitos
+            if (value.length > 6) {
+                value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
+            } else if (value.length > 0) {
+                value = value.replace(/^(\d*)/, '($1');
+            }
+            e.target.value = value;
+        });
+
         // Função para validar o formulário
         function validateForm() {
             let isValid = true;
-            // Limpa erros anteriores
             document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
 
             function setError(inputId, message) {
@@ -133,14 +150,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (nameInput.value.trim() === '') setError('name', 'Por favor, insira seu nome.');
-            if (phoneInput.value.trim().length < 10) setError('phone', 'Por favor, insira um telefone válido.');
+            
+            // --- ALTERADO: Validação do telefone para 11 dígitos ---
+            const phoneDigits = phoneInput.value.replace(/\D/g, '');
+            if (phoneDigits.length !== 11) setError('phone', 'O celular deve ter 11 dígitos (DDD + número).');
+            
             if (serviceInput.value === '') setError('service', 'Por favor, selecione um serviço.');
+
             if (dateInput.value === '') {
                 setError('date', 'Por favor, escolha uma data.');
             } else {
-                const today = new Date();
                 const selectedDate = new Date(dateInput.value + 'T00:00:00');
-                today.setHours(0, 0, 0, 0); // Zera a hora para comparar apenas a data
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
                 if (selectedDate < today) setError('date', 'Não é possível agendar em uma data passada.');
             }
             return isValid;
@@ -148,17 +170,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Evento de submit do formulário
         bookingForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Impede o recarregamento da página
+            event.preventDefault();
 
             if (validateForm()) {
-                // Coleta os dados do formulário
                 const name = nameInput.value;
                 const phone = phoneInput.value;
                 const service = serviceInput.options[serviceInput.selectedIndex].text;
                 const date = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('pt-BR');
                 const pickup = pickupInput.checked ? 'Sim' : 'Não';
                 
-                // Exibe os detalhes da confirmação
                 confirmationDetails.innerHTML = `
                     <p><strong>Nome:</strong> ${name}</p>
                     <p><strong>Telefone:</strong> ${phone}</p>
@@ -167,18 +187,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p><strong>Leva e Traz:</strong> ${pickup}</p>
                 `;
                 
-                // Prepara a mensagem do WhatsApp
                 const whatsappMessage = `Olá! Gostaria de confirmar meu agendamento:\n\n*Nome:* ${name}\n*Telefone:* ${phone}\n*Serviço:* ${service}\n*Data:* ${date}\n*Serviço Leva e Traz:* ${pickup}`;
                 const whatsappUrl = `https://wa.me/5514988388121?text=${encodeURIComponent(whatsappMessage)}`;
                 whatsappButton.onclick = () => window.open(whatsappUrl, '_blank');
 
-                // Esconde o formulário e mostra a confirmação
                 bookingForm.style.display = 'none';
                 confirmationDiv.style.display = 'block';
             }
         });
         
-        // Evento do botão "Editar Agendamento"
         editButton.addEventListener('click', function() {
             confirmationDiv.style.display = 'none';
             bookingForm.style.display = 'block';
