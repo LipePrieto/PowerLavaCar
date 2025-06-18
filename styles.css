@@ -96,13 +96,16 @@ body {
     text-decoration: none;
 }
 
-/* CÓDIGO PARA O LOGO EM IMAGEM */
+/* CÓDIGO MODIFICADO PARA O LOGO EM IMAGEM (TAMANHO PC/DESKTOP)
+   AVISO: A altura da sua barra de navegação é 70px. Um logo com 100px de altura vai
+   ficar maior que a barra e pode quebrar o layout.
+   Recomendação: Comece com um valor menor, como 50px.
+*/
 .nav-logo img {
-    height: 70px; /* Ajuste a altura do seu logo conforme necessário */
-    width: auto;  /* Isso mantém a proporção correta da imagem */
-    vertical-align: middle; /* Ajuda a alinhar a imagem perfeitamente na vertical */
+    height: 100px; /* Tamanho para telas grandes */
+    width: auto;
+    vertical-align: middle;
 }
-/* FIM DO CÓDIGO ADICIONADO */
 
 .nav-logo i {
     margin-right: 10px;
@@ -1780,6 +1783,15 @@ body.light-mode {
         font-size: 1.3rem;
         bottom: 20px;
         right: 20px;
+    }
+
+    /* CÓDIGO MODIFICADO PARA O LOGO EM IMAGEM (TAMANHO CELULAR)
+       AVISO: A altura da sua barra de navegação é 70px. Um logo com 75px de altura vai
+       ficar maior que a barra e pode quebrar o layout.
+       Recomendação: Comece com um valor menor, como 40px.
+    */
+    .nav-logo img {
+        height: 75px; /* Tamanho para celulares */
     }
 }
 
