@@ -96,6 +96,14 @@ body {
     text-decoration: none;
 }
 
+/* CÓDIGO ADICIONADO PARA O LOGO EM IMAGEM */
+.nav-logo img {
+    height: 40px; /* Ajuste a altura do seu logo conforme necessário */
+    width: auto;  /* Isso mantém a proporção correta da imagem */
+    vertical-align: middle; /* Ajuda a alinhar a imagem perfeitamente na vertical */
+}
+/* FIM DO CÓDIGO ADICIONADO */
+
 .nav-logo i {
     margin-right: 10px;
     color: var(--secondary-purple);
