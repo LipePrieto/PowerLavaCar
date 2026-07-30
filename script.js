@@ -1,3 +1,8 @@
+/**
+ * Power Lava-Car
+ * Desenvolvido por Luis Felipe Prieto
+ * Copyright © 2026. Todos os direitos reservados.
+ */
 document.addEventListener('DOMContentLoaded', function() {
 
     // ===================================================================
