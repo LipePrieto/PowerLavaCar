@@ -472,16 +472,6 @@ Desenvolvido por **Luis Felipe Prieto**.
 
 </div>
 
----
-
-## 📄 Licença
-
-Este projeto está distribuído sob a licença MIT.
-
-Consulte o arquivo [LICENSE](LICENSE) para mais informações.
-
----
-
 <div align="center">
 
 ### 🚗 Power Lava-Car
