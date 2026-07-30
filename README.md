@@ -488,6 +488,15 @@ Consulte o arquivo [LICENSE](LICENSE) para mais informações.
 
 **Tecnologia e cuidado profissional para um brilho incomparável.**
 
+## © Direitos autorais
+
+Copyright © 2026 Luis Felipe Prieto. Todos os direitos reservados.
+
+Este projeto foi desenvolvido para fins de portfólio e demonstração.
+
+Não é permitida a reprodução, distribuição, modificação, comercialização
+ou utilização total ou parcial deste projeto sem autorização prévia do autor.
+
 <br>
 
 <a href="https://lipeprieto.github.io/PowerLavaCar/">
